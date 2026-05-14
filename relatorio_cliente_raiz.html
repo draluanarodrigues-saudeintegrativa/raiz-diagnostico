@@ -10,25 +10,24 @@
   --preto: #16130F;
   --cobre: #C4763A;
   --cobre-esc: #A05E28;
-  --cobre-claro: #D98A4E;
   --creme: #F0E4CC;
   --cinza: #8C8880;
   --bege: #9C7B5E;
   --offwhite: #FAF7F2;
   --texto: #3a3028;
+  --branco: #FFFFFF;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body { font-family: 'Outfit', sans-serif; background: var(--offwhite); color: var(--texto); }
 
-/* ── LOADING ── */
 #tela-loading {
   position: fixed; inset: 0; background: var(--preto);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  z-index: 1000; transition: opacity 0.6s;
+  z-index: 1000;
 }
 .spinner {
-  width: 48px; height: 48px;
+  width: 44px; height: 44px;
   border: 2px solid rgba(196,118,58,0.2);
   border-top-color: var(--cobre);
   border-radius: 50%;
@@ -36,251 +35,153 @@ body { font-family: 'Outfit', sans-serif; background: var(--offwhite); color: va
   margin-bottom: 28px;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-.loading-titulo {
-  font-family: 'Lora', serif; font-style: italic;
-  font-size: 20px; color: var(--creme); margin-bottom: 10px;
-}
-.loading-sub { font-size: 12px; color: var(--cinza); letter-spacing: 2px; text-transform: uppercase; }
-.loading-msg { font-size: 13px; color: rgba(196,118,58,0.7); margin-top: 20px; min-height: 20px; transition: opacity 0.3s; }
+.loading-titulo { font-family: 'Lora', serif; font-style: italic; font-size: 20px; color: var(--creme); margin-bottom: 8px; }
+.loading-sub { font-size: 11px; color: var(--cinza); letter-spacing: 3px; text-transform: uppercase; }
+.loading-msg { font-size: 13px; color: rgba(196,118,58,0.7); margin-top: 20px; }
 
-/* ── ERRO ── */
-#tela-erro {
-  display: none; max-width: 560px; margin: 80px auto; padding: 48px 40px; text-align: center;
-}
-.erro-titulo { font-size: 24px; font-weight: 700; color: var(--preto); margin-bottom: 12px; }
+#tela-erro { display: none; max-width: 520px; margin: 80px auto; padding: 48px 40px; text-align: center; }
+.erro-titulo { font-size: 22px; font-weight: 700; color: var(--preto); margin-bottom: 12px; }
 .erro-sub { font-family: 'Lora', serif; font-size: 15px; color: var(--cinza); line-height: 1.8; }
 
-/* ── CONTEÚDO PRINCIPAL ── */
 #tela-relatorio { display: none; }
 
-/* ── HERO ── */
 .hero {
-  background: var(--preto);
-  padding: 72px 48px 80px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+  background: var(--preto); padding: 80px 48px 88px;
+  text-align: center; position: relative; overflow: hidden;
 }
 .hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 50% 0%, rgba(196,118,58,0.12) 0%, transparent 70%);
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(196,118,58,0.1) 0%, transparent 65%);
   pointer-events: none;
 }
 .hero-tag {
   font-size: 10px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase;
-  color: var(--cobre); margin-bottom: 24px;
-  display: flex; align-items: center; justify-content: center; gap: 12px;
+  color: var(--cobre); margin-bottom: 28px;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
 }
-.hero-tag::before, .hero-tag::after {
-  content: ''; display: block; width: 32px; height: 1px; background: rgba(196,118,58,0.4);
-}
-.hero-nome {
-  font-family: 'Lora', serif; font-weight: 300; font-style: italic;
-  font-size: 52px; color: var(--creme); line-height: 1.1; margin-bottom: 16px;
-}
-.hero-subtitulo {
-  font-size: 14px; font-weight: 300; color: rgba(240,228,204,0.5);
-  letter-spacing: 1px; margin-bottom: 40px;
-}
+.hero-tag::before, .hero-tag::after { content: ''; display: block; width: 28px; height: 1px; background: rgba(196,118,58,0.35); }
+.hero-nome { font-family: 'Lora', serif; font-weight: 300; font-style: italic; font-size: 54px; color: var(--creme); line-height: 1.1; margin-bottom: 14px; }
+.hero-subtitulo { font-size: 13px; font-weight: 300; color: rgba(240,228,204,0.4); letter-spacing: 1.5px; margin-bottom: 48px; }
 .hero-frase {
-  max-width: 620px; margin: 0 auto;
-  font-family: 'Lora', serif; font-style: italic;
-  font-size: 20px; color: rgba(240,228,204,0.8);
-  line-height: 1.7; border-top: 1px solid rgba(196,118,58,0.2);
-  padding-top: 32px;
-}
-.hero-frase em { color: var(--cobre); font-style: normal; }
-
-/* ── SEÇÃO GERAL ── */
-.secao { max-width: 860px; margin: 0 auto; padding: 72px 40px; }
-.secao-dark { background: var(--preto); }
-.secao-dark .secao { color: var(--creme); }
-
-.overline {
-  font-size: 10px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase;
-  color: var(--cobre); margin-bottom: 14px;
-}
-.secao-titulo {
-  font-size: 34px; font-weight: 800; color: var(--preto); line-height: 1.15; margin-bottom: 12px;
-}
-.secao-dark .secao-titulo { color: var(--creme); }
-.secao-desc {
-  font-family: 'Lora', serif; font-size: 16px; color: var(--bege);
-  line-height: 1.8; max-width: 640px; margin-bottom: 48px;
+  max-width: 600px; margin: 0 auto;
+  font-family: 'Lora', serif; font-style: italic; font-size: 19px;
+  color: rgba(240,228,204,0.8); line-height: 1.75;
+  border-top: 1px solid rgba(196,118,58,0.18); padding-top: 36px;
 }
 
-/* ── CARD DE RECONHECIMENTO ── */
-.reconhecimento-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px;
-}
-.rec-card {
-  background: white; border-radius: 8px; padding: 24px;
-  border: 1px solid rgba(22,19,15,0.07);
-  display: flex; align-items: flex-start; gap: 14px;
+.secao { max-width: 840px; margin: 0 auto; padding: 72px 40px; }
+.overline { font-size: 10px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--cobre); margin-bottom: 12px; }
+.secao-titulo { font-size: 32px; font-weight: 800; color: var(--preto); line-height: 1.15; margin-bottom: 12px; }
+.secao-desc { font-family: 'Lora', serif; font-size: 16px; color: var(--bege); line-height: 1.85; max-width: 620px; margin-bottom: 44px; }
+
+/* SINTOMAS — sem ícone, sem fundo escuro */
+.sintomas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.sintoma-card {
+  background: var(--branco); border-radius: 6px; padding: 22px 24px;
+  border: 1px solid rgba(22,19,15,0.07); border-left: 3px solid var(--cobre);
   animation: fadeUp 0.5s ease both;
 }
-.rec-icon {
-  width: 40px; height: 40px; min-width: 40px;
-  background: rgba(196,118,58,0.1); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
-}
-.rec-texto { font-size: 14px; font-weight: 500; color: var(--texto); line-height: 1.6; }
-.rec-texto span { color: var(--cobre); font-weight: 700; }
+.sintoma-titulo { font-size: 12px; font-weight: 700; color: var(--cobre); margin-bottom: 6px; letter-spacing: 1px; text-transform: uppercase; }
+.sintoma-texto { font-family: 'Lora', serif; font-size: 14px; color: var(--texto); line-height: 1.7; }
 
-/* ── DIAGNÓSTICO VISUAL ── */
-.diag-bloco {
-  margin-bottom: 32px;
-  animation: fadeUp 0.5s ease both;
-}
-.diag-bloco-header {
-  display: flex; align-items: center; gap: 16px; margin-bottom: 16px;
-}
-.diag-num {
-  width: 44px; height: 44px; min-width: 44px;
-  background: var(--cobre); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; font-weight: 800; color: var(--creme);
-}
-.diag-bloco-titulo { font-size: 18px; font-weight: 700; color: var(--preto); }
-.diag-bloco-conteudo {
-  background: white; border-radius: 8px; padding: 24px 28px;
+/* DIAGNÓSTICO */
+.diag-bloco { margin-bottom: 28px; animation: fadeUp 0.5s ease both; }
+.diag-letra { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--cobre); margin-bottom: 6px; }
+.diag-titulo { font-size: 20px; font-weight: 700; color: var(--preto); margin-bottom: 14px; }
+.diag-conteudo {
+  background: var(--branco); border-radius: 6px; padding: 28px 32px;
   border-left: 3px solid var(--cobre);
-  font-family: 'Lora', serif; font-size: 15px; color: var(--texto); line-height: 1.8;
   border-top: 1px solid rgba(22,19,15,0.06);
   border-right: 1px solid rgba(22,19,15,0.06);
   border-bottom: 1px solid rgba(22,19,15,0.06);
+  font-family: 'Lora', serif; font-size: 15px; color: var(--texto); line-height: 1.85;
 }
 
-/* ── PLANO DE AÇÃO ── */
-.plano-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-.plano-card {
-  background: rgba(240,228,204,0.08);
-  border: 1px solid rgba(196,118,58,0.2);
-  border-radius: 8px; padding: 28px 32px;
-  display: flex; align-items: flex-start; gap: 20px;
-  animation: fadeUp 0.5s ease both;
-}
-.plano-step {
-  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--cobre); background: rgba(196,118,58,0.15);
-  padding: 6px 14px; border-radius: 40px; white-space: nowrap; margin-top: 2px;
-}
-.plano-conteudo {}
-.plano-titulo { font-size: 17px; font-weight: 700; color: var(--creme); margin-bottom: 8px; }
-.plano-texto {
-  font-family: 'Lora', serif; font-size: 14px;
-  color: rgba(240,228,204,0.65); line-height: 1.8;
-}
-
-/* ── RESULTADOS PALPÁVEIS ── */
-.resultados-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-.resultado-card {
-  background: white; border-radius: 8px; padding: 28px 20px;
-  text-align: center; border: 1px solid rgba(22,19,15,0.07);
-  animation: fadeUp 0.5s ease both;
-}
-.resultado-icone { font-size: 32px; margin-bottom: 16px; }
-.resultado-titulo { font-size: 15px; font-weight: 700; color: var(--preto); margin-bottom: 8px; }
-.resultado-texto { font-family: 'Lora', serif; font-size: 13px; color: var(--cinza); line-height: 1.7; }
-
-/* ── ANTES E DEPOIS ── */
-.antes-depois { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.ad-col { border-radius: 8px; padding: 32px; }
-.ad-col-antes { background: rgba(140,136,128,0.08); border: 1px solid rgba(140,136,128,0.15); }
-.ad-col-depois { background: rgba(196,118,58,0.08); border: 1px solid rgba(196,118,58,0.25); }
-.ad-label {
-  font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
-  margin-bottom: 20px;
-}
+/* ANTES E DEPOIS — tudo em fundo claro, texto escuro */
+.ad-wrap { background: var(--offwhite); padding: 72px 0; }
+.ad-header { max-width: 840px; margin: 0 auto; padding: 0 40px 36px; }
+.antes-depois { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 840px; margin: 0 auto; padding: 0 40px; }
+.ad-col { border-radius: 8px; padding: 36px; }
+.ad-col-antes { background: var(--branco); border: 1px solid rgba(22,19,15,0.1); }
+.ad-col-depois { background: var(--branco); border: 2px solid var(--cobre); }
+.ad-label { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 24px; display: block; }
 .ad-col-antes .ad-label { color: var(--cinza); }
 .ad-col-depois .ad-label { color: var(--cobre); }
-.ad-item {
-  display: flex; align-items: flex-start; gap: 10px;
-  margin-bottom: 14px; font-size: 14px; line-height: 1.6;
-}
-.ad-col-antes .ad-item { color: rgba(22,19,15,0.55); }
-.ad-col-depois .ad-item { color: var(--texto); font-weight: 500; }
-.ad-bullet {
-  width: 6px; height: 6px; min-width: 6px;
-  border-radius: 50%; margin-top: 7px;
-}
-.ad-col-antes .ad-bullet { background: var(--cinza); }
-.ad-col-depois .ad-bullet { background: var(--cobre); }
+.ad-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid rgba(22,19,15,0.05); }
+.ad-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.ad-marcador { width: 5px; height: 5px; min-width: 5px; border-radius: 50%; margin-top: 8px; }
+.ad-col-antes .ad-marcador { background: rgba(140,136,128,0.4); }
+.ad-col-depois .ad-marcador { background: var(--cobre); }
+.ad-texto { font-family: 'Lora', serif; font-size: 14px; line-height: 1.7; }
+.ad-col-antes .ad-texto { color: rgba(58,48,40,0.5); }
+.ad-col-depois .ad-texto { color: var(--texto); font-weight: 500; }
 
-/* ── CTA ── */
+/* PLANO — fundo branco, texto escuro */
+.plano-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+.plano-card {
+  background: var(--branco); border: 1px solid rgba(22,19,15,0.08);
+  border-radius: 6px; padding: 32px 36px;
+  display: grid; grid-template-columns: 90px 1fr; gap: 24px; align-items: start;
+  animation: fadeUp 0.5s ease both;
+}
+.plano-num { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--cobre); padding: 8px 0; border-top: 2px solid var(--cobre); }
+.plano-titulo { font-size: 17px; font-weight: 700; color: var(--preto); margin-bottom: 10px; }
+.plano-texto { font-family: 'Lora', serif; font-size: 14px; color: var(--bege); line-height: 1.8; }
+
+/* RESULTADOS */
+.resultados-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.resultado-card {
+  background: var(--branco); border-radius: 6px; padding: 26px;
+  border: 1px solid rgba(22,19,15,0.07);
+  animation: fadeUp 0.5s ease both;
+}
+.resultado-titulo { font-size: 13px; font-weight: 700; color: var(--preto); margin-bottom: 8px; padding-bottom: 10px; border-bottom: 1px solid rgba(196,118,58,0.2); }
+.resultado-texto { font-family: 'Lora', serif; font-size: 13px; color: var(--cinza); line-height: 1.7; }
+
+/* CTA */
 .cta-bloco {
-  background: var(--preto); border-radius: 12px;
-  padding: 56px 48px; text-align: center;
+  background: var(--preto); border-radius: 10px; padding: 64px 56px; text-align: center;
   position: relative; overflow: hidden;
 }
 .cta-bloco::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 50% 100%, rgba(196,118,58,0.15) 0%, transparent 65%);
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(196,118,58,0.12) 0%, transparent 60%);
   pointer-events: none;
 }
-.cta-overline {
-  font-size: 10px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase;
-  color: var(--cobre); margin-bottom: 20px;
-}
-.cta-titulo {
-  font-family: 'Lora', serif; font-weight: 300; font-size: 40px;
-  color: var(--creme); line-height: 1.2; margin-bottom: 16px;
-}
+.cta-overline { font-size: 10px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--cobre); margin-bottom: 20px; }
+.cta-titulo { font-family: 'Lora', serif; font-weight: 300; font-size: 38px; color: var(--creme); line-height: 1.25; margin-bottom: 20px; }
 .cta-titulo em { font-style: italic; color: var(--cobre); }
-.cta-texto {
-  font-size: 15px; font-weight: 300; color: rgba(240,228,204,0.6);
-  line-height: 1.8; max-width: 520px; margin: 0 auto 36px;
-}
-.cta-asssinatura {
-  display: flex; align-items: center; justify-content: center; gap: 16px;
-  margin-top: 40px; padding-top: 32px;
-  border-top: 1px solid rgba(196,118,58,0.15);
-}
-.cta-ass-texto { text-align: left; }
-.cta-ass-nome { font-size: 15px; font-weight: 700; color: var(--creme); }
-.cta-ass-cargo { font-size: 12px; color: var(--cinza); margin-top: 2px; }
+.cta-texto { font-family: 'Lora', serif; font-size: 16px; font-weight: 300; color: rgba(240,228,204,0.65); line-height: 1.85; max-width: 500px; margin: 0 auto 40px; }
+.cta-assinatura { padding-top: 32px; border-top: 1px solid rgba(196,118,58,0.15); }
+.cta-ass-nome { font-size: 15px; font-weight: 700; color: var(--creme); margin-bottom: 4px; }
+.cta-ass-cargo { font-size: 12px; color: var(--cinza); letter-spacing: 0.5px; }
 
-/* ── RODAPÉ ── */
-.rodape {
-  background: var(--preto); border-top: 1px solid rgba(196,118,58,0.1);
-  padding: 32px 48px; text-align: center;
-}
-.rodape-txt { font-size: 11px; color: var(--cinza); letter-spacing: 1px; }
+.divisor { height: 1px; background: rgba(22,19,15,0.07); max-width: 840px; margin: 0 auto; }
+
+.rodape { background: var(--preto); border-top: 1px solid rgba(196,118,58,0.08); padding: 36px 48px; text-align: center; }
+.rodape-txt { font-size: 11px; color: var(--cinza); letter-spacing: 1px; line-height: 1.8; }
 .rodape-txt span { color: var(--cobre); }
 
-/* ── ANIMAÇÕES ── */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.fade-in { animation: fadeUp 0.6s ease both; }
-
-/* ── DIVISOR ── */
-.divisor {
-  height: 1px; background: rgba(22,19,15,0.08);
-  max-width: 860px; margin: 0 auto;
-}
-.divisor-dark { background: rgba(196,118,58,0.12); }
-
-@media (max-width: 700px) {
-  .hero { padding: 48px 24px 56px; }
+@media (max-width: 680px) {
+  .hero { padding: 52px 24px 60px; }
   .hero-nome { font-size: 36px; }
   .secao { padding: 48px 24px; }
-  .reconhecimento-grid { grid-template-columns: 1fr; }
-  .resultados-grid { grid-template-columns: 1fr; }
-  .antes-depois { grid-template-columns: 1fr; }
+  .sintomas-grid, .antes-depois, .resultados-grid { grid-template-columns: 1fr; }
+  .antes-depois { padding: 0 24px; }
+  .plano-card { grid-template-columns: 1fr; gap: 10px; padding: 24px; }
   .cta-bloco { padding: 40px 24px; }
-  .cta-titulo { font-size: 28px; }
+  .cta-titulo { font-size: 26px; }
+  .ad-header { padding: 0 24px 36px; }
 }
 </style>
 </head>
 <body>
 
-<!-- LOADING -->
 <div id="tela-loading">
   <div class="spinner"></div>
   <div class="loading-titulo">Preparando seu diagnóstico</div>
@@ -288,319 +189,241 @@ body { font-family: 'Outfit', sans-serif; background: var(--offwhite); color: va
   <div class="loading-msg" id="loading-msg">Lendo suas respostas com atenção…</div>
 </div>
 
-<!-- ERRO -->
 <div id="tela-erro">
   <div class="erro-titulo">Algo não saiu como esperado.</div>
   <div class="erro-sub" id="erro-msg">Não foi possível gerar seu diagnóstico. Entre em contato com a Dra. Luana pelo WhatsApp.</div>
 </div>
 
-<!-- RELATÓRIO -->
 <div id="tela-relatorio">
 
-  <!-- HERO -->
   <div class="hero">
-    <div class="hero-tag">Diagnóstico R.A.I.Z · Exclusivo</div>
-    <div class="hero-nome" id="hero-nome">Seu nome</div>
-    <div class="hero-subtitulo" id="hero-subtitulo">Preparado por Dra. Luana Rodrigues</div>
+    <div class="hero-tag">Diagnóstico R.A.I.Z · Exclusivo para você</div>
+    <div class="hero-nome" id="hero-nome"></div>
+    <div class="hero-subtitulo" id="hero-subtitulo"></div>
     <div class="hero-frase" id="hero-frase"></div>
   </div>
 
-  <!-- SEÇÃO 1: O QUE SEU CORPO ESTÁ DIZENDO -->
   <div class="secao">
     <div class="overline">O que foi identificado</div>
-    <div class="secao-titulo" id="sec1-titulo">Seu sistema está comunicando algo</div>
+    <div class="secao-titulo">O que está acontecendo com você</div>
     <div class="secao-desc" id="sec1-desc"></div>
-    <div class="reconhecimento-grid" id="reconhecimento-grid"></div>
+    <div class="sintomas-grid" id="sintomas-grid"></div>
   </div>
 
   <div class="divisor"></div>
 
-  <!-- SEÇÃO 2: DIAGNÓSTICO -->
   <div class="secao">
     <div class="overline">Leitura profunda</div>
     <div class="secao-titulo">O que está na raiz</div>
-    <div class="secao-desc">Não é fraqueza. Não é falta de disciplina. É um padrão que tem nome, tem raiz e tem caminho.</div>
+    <div class="secao-desc">Não é fraqueza. Não é falta de força de vontade. É um padrão que tem nome, tem raiz e tem caminho.</div>
     <div id="diagnostico-blocos"></div>
   </div>
 
-  <!-- SEÇÃO 3: ANTES E DEPOIS (fundo escuro) -->
-  <div class="secao-dark">
-    <div class="secao">
+  <div class="ad-wrap">
+    <div class="ad-header">
       <div class="overline">O que muda</div>
       <div class="secao-titulo">De onde você está para onde pode chegar</div>
-      <div class="secao-desc">Não estamos falando de perfeição. Estamos falando de funcionamento real — aquele que você sente, não que você performa.</div>
-      <div class="antes-depois" id="antes-depois"></div>
+      <div class="secao-desc" style="margin-bottom:0">Não estamos falando de perfeição. Estamos falando de como você se sente quando seu sistema está funcionando de verdade.</div>
     </div>
+    <div class="antes-depois" id="antes-depois"></div>
   </div>
 
-  <!-- SEÇÃO 4: PLANO DE AÇÃO -->
   <div class="secao">
     <div class="overline">Plano de ação</div>
     <div class="secao-titulo">O que precisa acontecer, na ordem certa</div>
-    <div class="secao-desc">Cada passo abaixo foi construído especificamente para o seu caso — com base no que você trouxe. Não é protocolo genérico. É leitura do seu sistema.</div>
+    <div class="secao-desc">Cada movimento foi construído com base no que você trouxe. Não é protocolo genérico. É leitura do seu sistema.</div>
     <div class="plano-grid" id="plano-grid"></div>
   </div>
 
   <div class="divisor"></div>
 
-  <!-- SEÇÃO 5: RESULTADOS PALPÁVEIS -->
   <div class="secao">
     <div class="overline">Resultados concretos</div>
-    <div class="secao-titulo">O que você vai sentir — não "algum dia", mas no processo</div>
-    <div class="secao-desc" style="margin-bottom:40px">Transformação real não é uma virada de chave. É uma reorganização progressiva — e você vai perceber em coisas concretas do seu dia.</div>
+    <div class="secao-titulo">O que você vai sentir no processo</div>
+    <div class="secao-desc" style="margin-bottom:40px">Transformação real não é uma virada de chave. Você vai perceber em coisas concretas do seu dia.</div>
     <div class="resultados-grid" id="resultados-grid"></div>
   </div>
 
-  <!-- SEÇÃO 6: CTA -->
   <div class="secao" style="padding-top:0;padding-bottom:72px">
     <div class="cta-bloco">
       <div class="cta-overline">Próximo passo</div>
-      <div class="cta-titulo" id="cta-titulo">O mapa está aqui.<br><em>O caminho começa com uma decisão.</em></div>
+      <div class="cta-titulo">O mapa está aqui.<br><em>O caminho começa com uma decisão.</em></div>
       <div class="cta-texto" id="cta-texto"></div>
-      <div class="cta-asssinatura">
-        <div class="cta-ass-texto">
-          <div class="cta-ass-nome">Dra. Luana Rodrigues</div>
-          <div class="cta-ass-cargo">Especialista em Saúde Integrativa e Neuroperformance</div>
-        </div>
+      <div class="cta-assinatura">
+        <div class="cta-ass-nome">Dra. Luana Rodrigues</div>
+        <div class="cta-ass-cargo">Especialista em Saúde Integrativa e Neuroperformance</div>
       </div>
     </div>
   </div>
 
-  <!-- RODAPÉ -->
   <div class="rodape">
     <div class="rodape-txt">Método <span>R.A.I.Z</span> · Dra. Luana Rodrigues · Saúde Integrativa e Neuroperformance</div>
-    <div class="rodape-txt" style="margin-top:6px;font-style:italic">Este diagnóstico foi gerado exclusivamente para você, com base nas suas respostas.</div>
+    <div class="rodape-txt" style="margin-top:6px">Este diagnóstico foi preparado exclusivamente para você, com base nas suas respostas.</div>
   </div>
 
-</div><!-- /tela-relatorio -->
+</div>
 
 <script>
-// ── CONFIGURAÇÃO ──
 const ENDPOINT = "https://script.google.com/macros/s/AKfycbyJY9j-EywuQq4ho15WJrqDcO85Eyol6SdKUE26HP2Wb6hMHElsNiyDDoPKkEDCfFKB/exec";
 
-// ── PEGA PARAMS DA URL ──
-function getParam(nome) {
-  return new URLSearchParams(window.location.search).get(nome) || "";
-}
+function getP(n) { return new URLSearchParams(window.location.search).get(n) || ""; }
 
-const dadosCliente = {
-  nome:            decodeURIComponent(getParam("nome") || ""),
-  profissao:       decodeURIComponent(getParam("profissao") || ""),
-  idade:           decodeURIComponent(getParam("idade") || ""),
-  filhos:          decodeURIComponent(getParam("filhos") || ""),
-  estado_atual:    decodeURIComponent(getParam("estado_atual") || ""),
-  sintomas:        decodeURIComponent(getParam("sintomas") || ""),
-  dor_principal:   decodeURIComponent(getParam("dor_principal") || ""),
-  drenagem:        decodeURIComponent(getParam("drenagem") || ""),
-  tentativas:      decodeURIComponent(getParam("tentativas") || ""),
-  nao_resolvido:   decodeURIComponent(getParam("nao_resolvido") || ""),
-  tempo_sintoma:   decodeURIComponent(getParam("tempo_sintoma") || ""),
-  custo:           decodeURIComponent(getParam("custo") || ""),
-  paraiso:         decodeURIComponent(getParam("paraiso") || ""),
-  medo:            decodeURIComponent(getParam("medo") || ""),
-  investimento:    decodeURIComponent(getParam("investimento") || ""),
-  comprometimento: decodeURIComponent(getParam("comprometimento") || "7"),
-  observacao:      decodeURIComponent(getParam("observacao") || "")
+const d = {
+  nome:          decodeURIComponent(getP("nome")),
+  profissao:     decodeURIComponent(getP("profissao")),
+  idade:         decodeURIComponent(getP("idade")),
+  filhos:        decodeURIComponent(getP("filhos")),
+  estado_atual:  decodeURIComponent(getP("estado_atual")),
+  sintomas:      decodeURIComponent(getP("sintomas")),
+  dor_principal: decodeURIComponent(getP("dor_principal")),
+  drenagem:      decodeURIComponent(getP("drenagem")),
+  tentativas:    decodeURIComponent(getP("tentativas")),
+  nao_resolvido: decodeURIComponent(getP("nao_resolvido")),
+  tempo_sintoma: decodeURIComponent(getP("tempo_sintoma")),
+  custo:         decodeURIComponent(getP("custo")),
+  paraiso:       decodeURIComponent(getP("paraiso")),
+  medo:          decodeURIComponent(getP("medo")),
+  comprometimento: decodeURIComponent(getP("comprometimento") || "7")
 };
 
-// ── MENSAGENS DE LOADING ──
-const loadingMsgs = [
-  "Lendo suas respostas com atenção…",
-  "Mapeando o que seu sistema está comunicando…",
-  "Identificando padrões na raiz…",
-  "Construindo seu plano personalizado…",
-  "Finalizando seu diagnóstico exclusivo…"
-];
-let msgIdx = 0;
-const msgInterval = setInterval(() => {
-  document.getElementById("loading-msg").textContent = loadingMsgs[msgIdx % loadingMsgs.length];
-  msgIdx++;
-}, 2500);
+const msgs = ["Lendo suas respostas com atenção…","Mapeando o que seu sistema está comunicando…","Identificando padrões na raiz…","Construindo seu plano personalizado…","Finalizando seu diagnóstico exclusivo…"];
+let mi = 0;
+const iv = setInterval(function() { document.getElementById("loading-msg").textContent = msgs[mi++ % msgs.length]; }, 2500);
 
-// ── SANITIZAR ──
-function s(v) {
-  return String(v || "")
-    .replace(/\\/g, " ").replace(/"/g, "'")
-    .replace(/[\r\n]+/g, " ").replace(/[\u0000-\u001F]/g, " ").trim();
+function lp(v) {
+  return String(v||"").replace(/\\/g," ").replace(/"/g,"'").replace(/[\r\n]+/g," ").replace(/[\u0000-\u001F]/g," ").trim();
 }
 
-// ── PROMPT PARA A CLIENTE (sem dados estratégicos) ──
-function construirPrompt(d) {
-  return "Voce e um sistema especializado em comunicacao clinica integrativa com foco em neurovendas e PNL. " +
-    "Gere um relatorio de diagnostico para uma cliente da Dra. Luana Rodrigues — especialista em Saude Integrativa e Neuroperformance, metodo R.A.I.Z.\n\n" +
+function montarPrompt(d) {
+  return "Voce e um sistema especializado em comunicacao clinica integrativa, neurovendas e PNL. " +
+    "Gere um relatorio de diagnostico personalizado para uma cliente da Dra. Luana Rodrigues, especialista em Saude Integrativa e Neuroperformance, metodo R.A.I.Z.\n\n" +
     "REGRAS ABSOLUTAS:\n" +
-    "1. NAO entregue o COMO. Apenas o QUE — o que esta na raiz, o que precisa mudar, o que e possivel.\n" +
-    "2. Gere MUITO DESEJO pelo acompanhamento sem oferecer. A cliente deve sentir que precisa da Dra. Luana.\n" +
-    "3. Use linguagem que faz a cliente se sentir VISTA, COMPREENDIDA e ESPERANCOSA — nao vitimizada.\n" +
-    "4. Resultados devem ser PALPÁVEIS e CONCRETOS: dormir e acordar descansada, tomar decisoes com clareza, ter energia real.\n" +
-    "5. Use principios de PNL: ancoragem, espelhamento da dor, linguagem do futuro desejado.\n" +
-    "6. Tom: especialista que leu o caso, nao coach motivacional. Direto, preciso, acolhedor.\n\n" +
+    "1. Use SEMPRE a segunda pessoa (voce, sua, seu). A Dra. Luana fala diretamente com a cliente.\n" +
+    "2. NUNCA use travessao. Use virgula, ponto ou ponto e virgula.\n" +
+    "3. NUNCA use emojis ou icones de nenhum tipo. Nenhum simbolo especial.\n" +
+    "4. NAO entregue o COMO. Apenas o QUE: o que esta na raiz, o que precisa mudar, o que e possivel.\n" +
+    "5. Gere DESEJO pelo acompanhamento sem oferecer diretamente. A cliente deve sentir que precisa da Dra. Luana para avançar.\n" +
+    "6. Resultados devem ser CONCRETOS e SENSORIAIS: dormir e acordar descansada, tomar decisoes com clareza, ter energia sem cafe.\n" +
+    "7. Tom: especialista que leu o caso com precisao. Direto, acolhedor, sem frases motivacionais.\n" +
+    "8. NUNCA use as palavras: jornada, autocuidado, bem-estar, equilibrio, leveza, habitos.\n\n" +
     "DADOS DA CLIENTE:\n" +
-    "Nome: " + s(d.nome) + "\nProfissao: " + s(d.profissao) + "\nIdade: " + s(d.idade) +
-    "\nFilhos: " + s(d.filhos) + "\nEstado atual: " + s(d.estado_atual) + "\nSintomas: " + s(d.sintomas) +
-    "\nDor principal: " + s(d.dor_principal) + "\nO que drena: " + s(d.drenagem) +
-    "\nO que ja tentou: " + s(d.tentativas) + "\nO que nao resolve sozinha: " + s(d.nao_resolvido) +
-    "\nTempo com sintomas: " + s(d.tempo_sintoma) + "\nCusto de continuar assim: " + s(d.custo) +
-    "\nO que muda se resolver: " + s(d.paraiso) + "\nO que teme: " + s(d.medo) + "\n\n" +
-    "RETORNE APENAS ESTE JSON PREENCHIDO — comece com { e termine com }:\n" +
-    '{"frase_espelho":"frase de 2-3 linhas que usa as proprias palavras da cliente para mostrar que foi lida com precisao. Deve causar o efeito: ela descreveu exatamente o que eu vivo",' +
-    '"descricao_momento":"paragrafo de 3-4 linhas descrevendo o momento atual dela com precisao clinica e empatia. Nomeia o estado sem diagnosticar doenca",' +
-    '"sintomas_nomeados":[{"icone":"emoji relevante","titulo":"nome curto do sintoma","texto":"1-2 linhas explicando como esse sintoma aparece especificamente nela"},{"icone":"","titulo":"","texto":""},{"icone":"","titulo":"","texto":""},{"icone":"","titulo":"","texto":""}],' +
-    '"raiz_principal":"2-3 paragrafos sobre o que esta na raiz. Clinico, preciso, sem jargao desnecessario. O que esta causando tudo isso — sem entregar o como resolver",' +
-    '"o_que_mantem":"paragrafo de 2-3 linhas sobre o que mantem esse ciclo. Sem culpar a cliente — ela esta fazendo o maximo com o que tem",' +
-    '"antes_atual":["situacao atual 1","situacao atual 2","situacao atual 3","situacao atual 4","situacao atual 5"],' +
-    '"depois_possivel":["resultado concreto 1 usando linguagem sensorial","resultado concreto 2","resultado concreto 3","resultado concreto 4","resultado concreto 5"],' +
-    '"plano_acao":[{"passo":"Passo 01","titulo":"titulo do movimento","texto":"descricao do QUE — nao o COMO. O que precisa acontecer neste eixo. 2-3 linhas."},{"passo":"Passo 02","titulo":"","texto":""},{"passo":"Passo 03","titulo":"","texto":""},{"passo":"Passo 04","titulo":"","texto":""}],' +
-    '"resultados_palpaveis":[{"icone":"emoji","titulo":"resultado concreto curto","texto":"como isso aparece no dia a dia real dela"},{"icone":"","titulo":"","texto":""},{"icone":"","titulo":"","texto":""},{"icone":"","titulo":"","texto":""},{"icone":"","titulo":"","texto":""},{"icone":"","titulo":"","texto":""}],' +
-    '"frase_encerramento":"frase final de 2-3 linhas que ancora o desejo pelo acompanhamento sem ser imperativa. Deve soar como: voce ja sabe que algo precisa mudar. A questao e se vai fazer isso com metodo ou continuar tentando sozinha."}';
+    "Nome: " + lp(d.nome) + "\nProfissao: " + lp(d.profissao) + "\nIdade: " + lp(d.idade) +
+    "\nFilhos: " + lp(d.filhos) + "\nEstado atual: " + lp(d.estado_atual) +
+    "\nSintomas: " + lp(d.sintomas) + "\nDor principal: " + lp(d.dor_principal) +
+    "\nO que drena: " + lp(d.drenagem) + "\nO que ja tentou: " + lp(d.tentativas) +
+    "\nO que nao resolve sozinha: " + lp(d.nao_resolvido) + "\nTempo: " + lp(d.tempo_sintoma) +
+    "\nCusto de continuar: " + lp(d.custo) + "\nO que muda se resolver: " + lp(d.paraiso) +
+    "\nO que teme: " + lp(d.medo) + "\n\n" +
+    "RETORNE SOMENTE ESTE JSON. Comece com { e termine com }. Nada antes, nada depois:\n" +
+    '{"frase_espelho":"2-3 linhas em segunda pessoa usando as palavras da cliente. Efeito: ela vai sentir que foi descrita com precisao sem ter contado nada",' +
+    '"descricao_momento":"3-4 linhas em segunda pessoa descrevendo o momento atual com precisao clinica e empatia. Sem diagnosticar doenca",' +
+    '"sintomas_nomeados":[{"titulo":"nome curto sem icone","texto":"1-2 linhas em segunda pessoa sobre como esse sintoma aparece nela"},{"titulo":"","texto":""},{"titulo":"","texto":""},{"titulo":"","texto":""}],' +
+    '"raiz_principal":"2-3 paragrafos em segunda pessoa sobre o que esta na raiz. Clinico, preciso. Sem o como resolver",' +
+    '"o_que_mantem":"2-3 linhas em segunda pessoa sobre o que mantem esse ciclo. Sem culpar a cliente",' +
+    '"antes_atual":["situacao atual 1 em segunda pessoa","situacao atual 2","situacao atual 3","situacao atual 4","situacao atual 5"],' +
+    '"depois_possivel":["resultado concreto e sensorial 1 em segunda pessoa","resultado 2","resultado 3","resultado 4","resultado 5"],' +
+    '"plano_acao":[{"passo":"Movimento 01","titulo":"titulo sem icone","texto":"o QUE nao o COMO. 2-3 linhas em segunda pessoa"},{"passo":"Movimento 02","titulo":"","texto":""},{"passo":"Movimento 03","titulo":"","texto":""},{"passo":"Movimento 04","titulo":"","texto":""}],' +
+    '"resultados_palpaveis":[{"titulo":"resultado concreto sem icone","texto":"como aparece no dia a dia dela em segunda pessoa"},{"titulo":"","texto":""},{"titulo":"","texto":""},{"titulo":"","texto":""},{"titulo":"","texto":""},{"titulo":"","texto":""}],' +
+    '"frase_encerramento":"2-3 linhas em segunda pessoa que ancora o desejo pelo acompanhamento. Sem imperativo direto. Tom: voce ja sabe que algo precisa mudar, a questao e se vai fazer isso com metodo ou continuar tentando sozinha."}';
 }
 
-// ── CHAMAR API VIA APPS SCRIPT ──
-async function gerarRelatorio() {
+async function gerar() {
   try {
-    const resp = await fetch(ENDPOINT, {
-      method: "POST",
-      body: JSON.stringify({ prompt: construirPrompt(dadosCliente) })
-    });
-
-    clearInterval(msgInterval);
+    const resp = await fetch(ENDPOINT, { method: "POST", body: JSON.stringify({ prompt: montarPrompt(d) }) });
+    clearInterval(iv);
     const texto = await resp.text();
     const match = texto.match(/\{[\s\S]*\}/);
     if (!match) throw new Error("Resposta invalida do servidor.");
-
-    // Limpa caracteres que quebram o JSON
-    const limpo = match[0]
-      .replace(/[\u0000-\u001F\u007F]/g, " ")
-      .replace(/,\s*([}\]])/g, "$1"); // remove virgula final antes de } ou ]
-
-    const diag = JSON.parse(limpo);
-    if (diag.erro) throw new Error(diag.erro);
-
-    renderRelatorio(dadosCliente, diag);
-
+    const limpo = match[0].replace(/[\u0000-\u001F\u007F]/g," ").replace(/,\s*([}\]])/g,"$1");
+    const r = JSON.parse(limpo);
+    if (r.erro) throw new Error(r.erro);
+    render(d, r);
   } catch(err) {
-    clearInterval(msgInterval);
+    clearInterval(iv);
     document.getElementById("tela-loading").style.display = "none";
     document.getElementById("tela-erro").style.display = "block";
     document.getElementById("erro-msg").textContent = "Erro: " + err.message;
   }
 }
 
-// ── RENDERIZAR ──
-function renderRelatorio(d, r) {
-  // Hero
+function render(d, r) {
   document.getElementById("hero-nome").textContent = d.nome || "Seu Diagnóstico";
-  document.getElementById("hero-subtitulo").textContent =
-    (d.profissao || "") + (d.idade ? " · " + d.idade + " anos" : "") + " · Diagnóstico R.A.I.Z exclusivo";
-  document.getElementById("hero-frase").innerHTML =
-    r.frase_espelho.replace(/\b(você|seu|sua|você)\b/gi, function(m) {
-      return "<em>" + m + "</em>";
-    });
+  document.getElementById("hero-subtitulo").textContent = (d.profissao||"") + (d.idade ? " · " + d.idade + " anos" : "") + " · Diagnóstico R.A.I.Z exclusivo";
+  document.getElementById("hero-frase").textContent = r.frase_espelho || "";
+  document.getElementById("sec1-desc").textContent = r.descricao_momento || "";
 
-  // Seção 1
-  document.getElementById("sec1-desc").textContent = r.descricao_momento;
-
-  const grid = document.getElementById("reconhecimento-grid");
-  (r.sintomas_nomeados || []).forEach(function(s, i) {
+  const sg = document.getElementById("sintomas-grid");
+  (r.sintomas_nomeados||[]).forEach(function(s,i) {
     if (!s.titulo) return;
-    const card = document.createElement("div");
-    card.className = "rec-card fade-in";
-    card.style.animationDelay = (i * 0.1) + "s";
-    card.innerHTML = '<div class="rec-icon">' + (s.icone || "✦") + '</div>' +
-      '<div class="rec-texto"><span>' + s.titulo + '</span><br>' + s.texto + '</div>';
-    grid.appendChild(card);
+    const c = document.createElement("div");
+    c.className = "sintoma-card"; c.style.animationDelay = (i*0.1)+"s";
+    c.innerHTML = '<div class="sintoma-titulo">'+s.titulo+'</div><div class="sintoma-texto">'+s.texto+'</div>';
+    sg.appendChild(c);
   });
 
-  // Seção 2: Diagnóstico
-  const diagBlocos = document.getElementById("diagnostico-blocos");
+  const db = document.getElementById("diagnostico-blocos");
+  function addD(letra, titulo, texto, delay) {
+    if (!texto) return;
+    const b = document.createElement("div");
+    b.className = "diag-bloco"; b.style.animationDelay = delay+"s";
+    b.innerHTML = '<div class="diag-letra">'+letra+'</div><div class="diag-titulo">'+titulo+'</div><div class="diag-conteudo">'+texto+'</div>';
+    db.appendChild(b);
+  }
+  addD("Rastrear", "O que está na raiz", r.raiz_principal, "0");
+  addD("Autorregular", "O que mantém esse ciclo", r.o_que_mantem, "0.12");
 
-  const bloco1 = document.createElement("div");
-  bloco1.className = "diag-bloco fade-in";
-  bloco1.innerHTML =
-    '<div class="diag-bloco-header"><div class="diag-num">R</div><div class="diag-bloco-titulo">O que está na raiz</div></div>' +
-    '<div class="diag-bloco-conteudo">' + r.raiz_principal + '</div>';
-  diagBlocos.appendChild(bloco1);
-
-  const bloco2 = document.createElement("div");
-  bloco2.className = "diag-bloco fade-in";
-  bloco2.style.animationDelay = "0.15s";
-  bloco2.innerHTML =
-    '<div class="diag-bloco-header"><div class="diag-num">A</div><div class="diag-bloco-titulo">O que mantém esse ciclo</div></div>' +
-    '<div class="diag-bloco-conteudo">' + r.o_que_mantem + '</div>';
-  diagBlocos.appendChild(bloco2);
-
-  // Seção 3: Antes e Depois
   const ad = document.getElementById("antes-depois");
-  const antesHTML = (r.antes_atual || []).map(function(item) {
-    return '<div class="ad-item"><div class="ad-bullet"></div><div>' + item + '</div></div>';
+  const ai = (r.antes_atual||[]).map(function(item) {
+    return '<div class="ad-item"><div class="ad-marcador"></div><div class="ad-texto">'+item+'</div></div>';
   }).join("");
-  const depoisHTML = (r.depois_possivel || []).map(function(item) {
-    return '<div class="ad-item"><div class="ad-bullet"></div><div>' + item + '</div></div>';
+  const di = (r.depois_possivel||[]).map(function(item) {
+    return '<div class="ad-item"><div class="ad-marcador"></div><div class="ad-texto">'+item+'</div></div>';
   }).join("");
-
   ad.innerHTML =
-    '<div class="ad-col ad-col-antes"><div class="ad-label">Hoje</div>' + antesHTML + '</div>' +
-    '<div class="ad-col ad-col-depois"><div class="ad-label">Com método</div>' + depoisHTML + '</div>';
+    '<div class="ad-col ad-col-antes"><span class="ad-label">Onde você está hoje</span>'+ai+'</div>'+
+    '<div class="ad-col ad-col-depois"><span class="ad-label">O que se torna possível</span>'+di+'</div>';
 
-  // Seção 4: Plano de Ação
-  const plano = document.getElementById("plano-grid");
-  (r.plano_acao || []).forEach(function(p, i) {
+  const pg = document.getElementById("plano-grid");
+  (r.plano_acao||[]).forEach(function(p,i) {
     if (!p.titulo) return;
-    const card = document.createElement("div");
-    card.className = "plano-card fade-in";
-    card.style.animationDelay = (i * 0.1) + "s";
-    card.innerHTML =
-      '<span class="plano-step">' + p.passo + '</span>' +
-      '<div class="plano-conteudo"><div class="plano-titulo">' + p.titulo + '</div>' +
-      '<div class="plano-texto">' + p.texto + '</div></div>';
-    plano.appendChild(card);
+    const c = document.createElement("div");
+    c.className = "plano-card"; c.style.animationDelay = (i*0.1)+"s";
+    c.innerHTML = '<div class="plano-num">'+p.passo+'</div><div class="plano-conteudo"><div class="plano-titulo">'+p.titulo+'</div><div class="plano-texto">'+p.texto+'</div></div>';
+    pg.appendChild(c);
   });
 
-  // Seção 5: Resultados Palpáveis
-  const resultados = document.getElementById("resultados-grid");
-  (r.resultados_palpaveis || r.resultados_palpáveis || []).forEach(function(res, i) {
+  const rg = document.getElementById("resultados-grid");
+  (r.resultados_palpaveis||[]).forEach(function(res,i) {
     if (!res.titulo) return;
-    const card = document.createElement("div");
-    card.className = "resultado-card fade-in";
-    card.style.animationDelay = (i * 0.08) + "s";
-    card.innerHTML =
-      '<div class="resultado-icone">' + (res.icone || "✦") + '</div>' +
-      '<div class="resultado-titulo">' + res.titulo + '</div>' +
-      '<div class="resultado-texto">' + res.texto + '</div>';
-    resultados.appendChild(card);
+    const c = document.createElement("div");
+    c.className = "resultado-card"; c.style.animationDelay = (i*0.08)+"s";
+    c.innerHTML = '<div class="resultado-titulo">'+res.titulo+'</div><div class="resultado-texto">'+res.texto+'</div>';
+    rg.appendChild(c);
   });
 
-  // CTA
-  document.getElementById("cta-texto").textContent = r.frase_encerramento;
-
-  // Mostrar
+  document.getElementById("cta-texto").textContent = r.frase_encerramento || "";
   document.getElementById("tela-loading").style.display = "none";
   document.getElementById("tela-relatorio").style.display = "block";
   window.scrollTo({ top: 0 });
 }
 
-// ── INICIAR ──
-// Verifica se há dados via URL params, senão usa dados de demonstração
-if (dadosCliente.nome && dadosCliente.dor_principal) {
-  gerarRelatorio();
-} else {
-  // Modo demonstração — dados fictícios para você testar
-  dadosCliente.nome = "Fernanda Oliveira";
-  dadosCliente.profissao = "Empresária, dona de clínica";
-  dadosCliente.idade = "44";
-  dadosCliente.filhos = "2 filhos, 10 e 14 anos";
-  dadosCliente.estado_atual = "Estou tentando dar conta de tudo, mas meu corpo já está cobrando";
-  dadosCliente.sintomas = "Cansaço constante, Sono ruim, Ansiedade, Exames normais mas não estou bem";
-  dadosCliente.dor_principal = "Acordo cansada todo dia. Durmo 7 horas mas parece que não dormi. Concentração caiu, fico irritada com minha equipe e minhas filhas.";
-  dadosCliente.drenagem = "A clínica toda cai em cima de mim. Sou eu que resolvo tudo. Em casa é igual.";
-  dadosCliente.tentativas = "3 exames de sangue, academia 4 vezes, nutricionista, terapia há 2 anos";
-  dadosCliente.nao_resolvido = "O cansaço não vai embora. O sono não melhora de verdade.";
-  dadosCliente.tempo_sintoma = "Entre 1 e 3 anos";
-  dadosCliente.custo = "Decisões erradas na clínica. Relacionamento esfriou. Sem paciência com as filhas.";
-  dadosCliente.paraiso = "Acordar descansada. Tomar decisões com clareza. Chegar em casa presente.";
-  dadosCliente.medo = "Que meu corpo pare em hora que eu não escolhi.";
-  gerarRelatorio();
+// Demo se sem params
+if (!d.nome || !d.dor_principal) {
+  d.nome="Fernanda Oliveira"; d.profissao="Empresaria, dona de clinica"; d.idade="44";
+  d.filhos="2 filhos, 10 e 14 anos";
+  d.estado_atual="Estou tentando dar conta de tudo, mas meu corpo ja esta cobrando";
+  d.sintomas="Cansaco constante, Sono ruim, Ansiedade, Exames normais mas nao estou bem";
+  d.dor_principal="Acordo cansada todo dia. Durmo 7 horas mas parece que nao dormi. Concentracao caiu, fico irritada com minha equipe e minhas filhas.";
+  d.drenagem="A clinica toda cai em cima de mim. Sou eu que resolvo tudo. Em casa e igual.";
+  d.tentativas="3 exames de sangue, academia 4 vezes, nutricionista, terapia ha 2 anos";
+  d.nao_resolvido="O cansaco nao vai embora. O sono nao melhora de verdade.";
+  d.tempo_sintoma="Entre 1 e 3 anos";
+  d.custo="Decisoes erradas na clinica. Relacionamento esfriou. Sem paciencia com as filhas.";
+  d.paraiso="Acordar descansada. Tomar decisoes com clareza. Chegar em casa presente.";
+  d.medo="Que meu corpo pare em hora que eu nao escolhi.";
 }
+
+gerar();
 </script>
 </body>
 </html>
