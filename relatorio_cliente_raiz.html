@@ -1,1 +1,606 @@
-https://draluanarodrigues-saudeintegrativa.github.io/raiz-diagnostico/relatorio_cliente_raiz.html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seu Diagnóstico R.A.I.Z · Dra. Luana Rodrigues</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --preto: #16130F;
+  --cobre: #C4763A;
+  --cobre-esc: #A05E28;
+  --cobre-claro: #D98A4E;
+  --creme: #F0E4CC;
+  --cinza: #8C8880;
+  --bege: #9C7B5E;
+  --offwhite: #FAF7F2;
+  --texto: #3a3028;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Outfit', sans-serif; background: var(--offwhite); color: var(--texto); }
+
+/* ── LOADING ── */
+#tela-loading {
+  position: fixed; inset: 0; background: var(--preto);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 1000; transition: opacity 0.6s;
+}
+.spinner {
+  width: 48px; height: 48px;
+  border: 2px solid rgba(196,118,58,0.2);
+  border-top-color: var(--cobre);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  margin-bottom: 28px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-titulo {
+  font-family: 'Lora', serif; font-style: italic;
+  font-size: 20px; color: var(--creme); margin-bottom: 10px;
+}
+.loading-sub { font-size: 12px; color: var(--cinza); letter-spacing: 2px; text-transform: uppercase; }
+.loading-msg { font-size: 13px; color: rgba(196,118,58,0.7); margin-top: 20px; min-height: 20px; transition: opacity 0.3s; }
+
+/* ── ERRO ── */
+#tela-erro {
+  display: none; max-width: 560px; margin: 80px auto; padding: 48px 40px; text-align: center;
+}
+.erro-titulo { font-size: 24px; font-weight: 700; color: var(--preto); margin-bottom: 12px; }
+.erro-sub { font-family: 'Lora', serif; font-size: 15px; color: var(--cinza); line-height: 1.8; }
+
+/* ── CONTEÚDO PRINCIPAL ── */
+#tela-relatorio { display: none; }
+
+/* ── HERO ── */
+.hero {
+  background: var(--preto);
+  padding: 72px 48px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(196,118,58,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-tag {
+  font-size: 10px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--cobre); margin-bottom: 24px;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+}
+.hero-tag::before, .hero-tag::after {
+  content: ''; display: block; width: 32px; height: 1px; background: rgba(196,118,58,0.4);
+}
+.hero-nome {
+  font-family: 'Lora', serif; font-weight: 300; font-style: italic;
+  font-size: 52px; color: var(--creme); line-height: 1.1; margin-bottom: 16px;
+}
+.hero-subtitulo {
+  font-size: 14px; font-weight: 300; color: rgba(240,228,204,0.5);
+  letter-spacing: 1px; margin-bottom: 40px;
+}
+.hero-frase {
+  max-width: 620px; margin: 0 auto;
+  font-family: 'Lora', serif; font-style: italic;
+  font-size: 20px; color: rgba(240,228,204,0.8);
+  line-height: 1.7; border-top: 1px solid rgba(196,118,58,0.2);
+  padding-top: 32px;
+}
+.hero-frase em { color: var(--cobre); font-style: normal; }
+
+/* ── SEÇÃO GERAL ── */
+.secao { max-width: 860px; margin: 0 auto; padding: 72px 40px; }
+.secao-dark { background: var(--preto); }
+.secao-dark .secao { color: var(--creme); }
+
+.overline {
+  font-size: 10px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--cobre); margin-bottom: 14px;
+}
+.secao-titulo {
+  font-size: 34px; font-weight: 800; color: var(--preto); line-height: 1.15; margin-bottom: 12px;
+}
+.secao-dark .secao-titulo { color: var(--creme); }
+.secao-desc {
+  font-family: 'Lora', serif; font-size: 16px; color: var(--bege);
+  line-height: 1.8; max-width: 640px; margin-bottom: 48px;
+}
+
+/* ── CARD DE RECONHECIMENTO ── */
+.reconhecimento-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px;
+}
+.rec-card {
+  background: white; border-radius: 8px; padding: 24px;
+  border: 1px solid rgba(22,19,15,0.07);
+  display: flex; align-items: flex-start; gap: 14px;
+  animation: fadeUp 0.5s ease both;
+}
+.rec-icon {
+  width: 40px; height: 40px; min-width: 40px;
+  background: rgba(196,118,58,0.1); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.rec-texto { font-size: 14px; font-weight: 500; color: var(--texto); line-height: 1.6; }
+.rec-texto span { color: var(--cobre); font-weight: 700; }
+
+/* ── DIAGNÓSTICO VISUAL ── */
+.diag-bloco {
+  margin-bottom: 32px;
+  animation: fadeUp 0.5s ease both;
+}
+.diag-bloco-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 16px;
+}
+.diag-num {
+  width: 44px; height: 44px; min-width: 44px;
+  background: var(--cobre); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 800; color: var(--creme);
+}
+.diag-bloco-titulo { font-size: 18px; font-weight: 700; color: var(--preto); }
+.diag-bloco-conteudo {
+  background: white; border-radius: 8px; padding: 24px 28px;
+  border-left: 3px solid var(--cobre);
+  font-family: 'Lora', serif; font-size: 15px; color: var(--texto); line-height: 1.8;
+  border-top: 1px solid rgba(22,19,15,0.06);
+  border-right: 1px solid rgba(22,19,15,0.06);
+  border-bottom: 1px solid rgba(22,19,15,0.06);
+}
+
+/* ── PLANO DE AÇÃO ── */
+.plano-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+.plano-card {
+  background: rgba(240,228,204,0.08);
+  border: 1px solid rgba(196,118,58,0.2);
+  border-radius: 8px; padding: 28px 32px;
+  display: flex; align-items: flex-start; gap: 20px;
+  animation: fadeUp 0.5s ease both;
+}
+.plano-step {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--cobre); background: rgba(196,118,58,0.15);
+  padding: 6px 14px; border-radius: 40px; white-space: nowrap; margin-top: 2px;
+}
+.plano-conteudo {}
+.plano-titulo { font-size: 17px; font-weight: 700; color: var(--creme); margin-bottom: 8px; }
+.plano-texto {
+  font-family: 'Lora', serif; font-size: 14px;
+  color: rgba(240,228,204,0.65); line-height: 1.8;
+}
+
+/* ── RESULTADOS PALPÁVEIS ── */
+.resultados-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.resultado-card {
+  background: white; border-radius: 8px; padding: 28px 20px;
+  text-align: center; border: 1px solid rgba(22,19,15,0.07);
+  animation: fadeUp 0.5s ease both;
+}
+.resultado-icone { font-size: 32px; margin-bottom: 16px; }
+.resultado-titulo { font-size: 15px; font-weight: 700; color: var(--preto); margin-bottom: 8px; }
+.resultado-texto { font-family: 'Lora', serif; font-size: 13px; color: var(--cinza); line-height: 1.7; }
+
+/* ── ANTES E DEPOIS ── */
+.antes-depois { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.ad-col { border-radius: 8px; padding: 32px; }
+.ad-col-antes { background: rgba(140,136,128,0.08); border: 1px solid rgba(140,136,128,0.15); }
+.ad-col-depois { background: rgba(196,118,58,0.08); border: 1px solid rgba(196,118,58,0.25); }
+.ad-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.ad-col-antes .ad-label { color: var(--cinza); }
+.ad-col-depois .ad-label { color: var(--cobre); }
+.ad-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-bottom: 14px; font-size: 14px; line-height: 1.6;
+}
+.ad-col-antes .ad-item { color: rgba(22,19,15,0.55); }
+.ad-col-depois .ad-item { color: var(--texto); font-weight: 500; }
+.ad-bullet {
+  width: 6px; height: 6px; min-width: 6px;
+  border-radius: 50%; margin-top: 7px;
+}
+.ad-col-antes .ad-bullet { background: var(--cinza); }
+.ad-col-depois .ad-bullet { background: var(--cobre); }
+
+/* ── CTA ── */
+.cta-bloco {
+  background: var(--preto); border-radius: 12px;
+  padding: 56px 48px; text-align: center;
+  position: relative; overflow: hidden;
+}
+.cta-bloco::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(196,118,58,0.15) 0%, transparent 65%);
+  pointer-events: none;
+}
+.cta-overline {
+  font-size: 10px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--cobre); margin-bottom: 20px;
+}
+.cta-titulo {
+  font-family: 'Lora', serif; font-weight: 300; font-size: 40px;
+  color: var(--creme); line-height: 1.2; margin-bottom: 16px;
+}
+.cta-titulo em { font-style: italic; color: var(--cobre); }
+.cta-texto {
+  font-size: 15px; font-weight: 300; color: rgba(240,228,204,0.6);
+  line-height: 1.8; max-width: 520px; margin: 0 auto 36px;
+}
+.cta-asssinatura {
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+  margin-top: 40px; padding-top: 32px;
+  border-top: 1px solid rgba(196,118,58,0.15);
+}
+.cta-ass-texto { text-align: left; }
+.cta-ass-nome { font-size: 15px; font-weight: 700; color: var(--creme); }
+.cta-ass-cargo { font-size: 12px; color: var(--cinza); margin-top: 2px; }
+
+/* ── RODAPÉ ── */
+.rodape {
+  background: var(--preto); border-top: 1px solid rgba(196,118,58,0.1);
+  padding: 32px 48px; text-align: center;
+}
+.rodape-txt { font-size: 11px; color: var(--cinza); letter-spacing: 1px; }
+.rodape-txt span { color: var(--cobre); }
+
+/* ── ANIMAÇÕES ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in { animation: fadeUp 0.6s ease both; }
+
+/* ── DIVISOR ── */
+.divisor {
+  height: 1px; background: rgba(22,19,15,0.08);
+  max-width: 860px; margin: 0 auto;
+}
+.divisor-dark { background: rgba(196,118,58,0.12); }
+
+@media (max-width: 700px) {
+  .hero { padding: 48px 24px 56px; }
+  .hero-nome { font-size: 36px; }
+  .secao { padding: 48px 24px; }
+  .reconhecimento-grid { grid-template-columns: 1fr; }
+  .resultados-grid { grid-template-columns: 1fr; }
+  .antes-depois { grid-template-columns: 1fr; }
+  .cta-bloco { padding: 40px 24px; }
+  .cta-titulo { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="tela-loading">
+  <div class="spinner"></div>
+  <div class="loading-titulo">Preparando seu diagnóstico</div>
+  <div class="loading-sub">Dra. Luana Rodrigues · R.A.I.Z</div>
+  <div class="loading-msg" id="loading-msg">Lendo suas respostas com atenção…</div>
+</div>
+
+<!-- ERRO -->
+<div id="tela-erro">
+  <div class="erro-titulo">Algo não saiu como esperado.</div>
+  <div class="erro-sub" id="erro-msg">Não foi possível gerar seu diagnóstico. Entre em contato com a Dra. Luana pelo WhatsApp.</div>
+</div>
+
+<!-- RELATÓRIO -->
+<div id="tela-relatorio">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">Diagnóstico R.A.I.Z · Exclusivo</div>
+    <div class="hero-nome" id="hero-nome">Seu nome</div>
+    <div class="hero-subtitulo" id="hero-subtitulo">Preparado por Dra. Luana Rodrigues</div>
+    <div class="hero-frase" id="hero-frase"></div>
+  </div>
+
+  <!-- SEÇÃO 1: O QUE SEU CORPO ESTÁ DIZENDO -->
+  <div class="secao">
+    <div class="overline">O que foi identificado</div>
+    <div class="secao-titulo" id="sec1-titulo">Seu sistema está comunicando algo</div>
+    <div class="secao-desc" id="sec1-desc"></div>
+    <div class="reconhecimento-grid" id="reconhecimento-grid"></div>
+  </div>
+
+  <div class="divisor"></div>
+
+  <!-- SEÇÃO 2: DIAGNÓSTICO -->
+  <div class="secao">
+    <div class="overline">Leitura profunda</div>
+    <div class="secao-titulo">O que está na raiz</div>
+    <div class="secao-desc">Não é fraqueza. Não é falta de disciplina. É um padrão que tem nome, tem raiz e tem caminho.</div>
+    <div id="diagnostico-blocos"></div>
+  </div>
+
+  <!-- SEÇÃO 3: ANTES E DEPOIS (fundo escuro) -->
+  <div class="secao-dark">
+    <div class="secao">
+      <div class="overline">O que muda</div>
+      <div class="secao-titulo">De onde você está para onde pode chegar</div>
+      <div class="secao-desc">Não estamos falando de perfeição. Estamos falando de funcionamento real — aquele que você sente, não que você performa.</div>
+      <div class="antes-depois" id="antes-depois"></div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 4: PLANO DE AÇÃO -->
+  <div class="secao">
+    <div class="overline">Plano de ação</div>
+    <div class="secao-titulo">O que precisa acontecer, na ordem certa</div>
+    <div class="secao-desc">Cada passo abaixo foi construído especificamente para o seu caso — com base no que você trouxe. Não é protocolo genérico. É leitura do seu sistema.</div>
+    <div class="plano-grid" id="plano-grid"></div>
+  </div>
+
+  <div class="divisor"></div>
+
+  <!-- SEÇÃO 5: RESULTADOS PALPÁVEIS -->
+  <div class="secao">
+    <div class="overline">Resultados concretos</div>
+    <div class="secao-titulo">O que você vai sentir — não "algum dia", mas no processo</div>
+    <div class="secao-desc" style="margin-bottom:40px">Transformação real não é uma virada de chave. É uma reorganização progressiva — e você vai perceber em coisas concretas do seu dia.</div>
+    <div class="resultados-grid" id="resultados-grid"></div>
+  </div>
+
+  <!-- SEÇÃO 6: CTA -->
+  <div class="secao" style="padding-top:0;padding-bottom:72px">
+    <div class="cta-bloco">
+      <div class="cta-overline">Próximo passo</div>
+      <div class="cta-titulo" id="cta-titulo">O mapa está aqui.<br><em>O caminho começa com uma decisão.</em></div>
+      <div class="cta-texto" id="cta-texto"></div>
+      <div class="cta-asssinatura">
+        <div class="cta-ass-texto">
+          <div class="cta-ass-nome">Dra. Luana Rodrigues</div>
+          <div class="cta-ass-cargo">Especialista em Saúde Integrativa e Neuroperformance</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RODAPÉ -->
+  <div class="rodape">
+    <div class="rodape-txt">Método <span>R.A.I.Z</span> · Dra. Luana Rodrigues · Saúde Integrativa e Neuroperformance</div>
+    <div class="rodape-txt" style="margin-top:6px;font-style:italic">Este diagnóstico foi gerado exclusivamente para você, com base nas suas respostas.</div>
+  </div>
+
+</div><!-- /tela-relatorio -->
+
+<script>
+// ── CONFIGURAÇÃO ──
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbyJY9j-EywuQq4ho15WJrqDcO85Eyol6SdKUE26HP2Wb6hMHElsNiyDDoPKkEDCfFKB/exec";
+
+// ── PEGA PARAMS DA URL ──
+function getParam(nome) {
+  return new URLSearchParams(window.location.search).get(nome) || "";
+}
+
+const dadosCliente = {
+  nome:            decodeURIComponent(getParam("nome") || ""),
+  profissao:       decodeURIComponent(getParam("profissao") || ""),
+  idade:           decodeURIComponent(getParam("idade") || ""),
+  filhos:          decodeURIComponent(getParam("filhos") || ""),
+  estado_atual:    decodeURIComponent(getParam("estado_atual") || ""),
+  sintomas:        decodeURIComponent(getParam("sintomas") || ""),
+  dor_principal:   decodeURIComponent(getParam("dor_principal") || ""),
+  drenagem:        decodeURIComponent(getParam("drenagem") || ""),
+  tentativas:      decodeURIComponent(getParam("tentativas") || ""),
+  nao_resolvido:   decodeURIComponent(getParam("nao_resolvido") || ""),
+  tempo_sintoma:   decodeURIComponent(getParam("tempo_sintoma") || ""),
+  custo:           decodeURIComponent(getParam("custo") || ""),
+  paraiso:         decodeURIComponent(getParam("paraiso") || ""),
+  medo:            decodeURIComponent(getParam("medo") || ""),
+  investimento:    decodeURIComponent(getParam("investimento") || ""),
+  comprometimento: decodeURIComponent(getParam("comprometimento") || "7"),
+  observacao:      decodeURIComponent(getParam("observacao") || "")
+};
+
+// ── MENSAGENS DE LOADING ──
+const loadingMsgs = [
+  "Lendo suas respostas com atenção…",
+  "Mapeando o que seu sistema está comunicando…",
+  "Identificando padrões na raiz…",
+  "Construindo seu plano personalizado…",
+  "Finalizando seu diagnóstico exclusivo…"
+];
+let msgIdx = 0;
+const msgInterval = setInterval(() => {
+  document.getElementById("loading-msg").textContent = loadingMsgs[msgIdx % loadingMsgs.length];
+  msgIdx++;
+}, 2500);
+
+// ── SANITIZAR ──
+function s(v) {
+  return String(v || "")
+    .replace(/\\/g, " ").replace(/"/g, "'")
+    .replace(/[\r\n]+/g, " ").replace(/[\u0000-\u001F]/g, " ").trim();
+}
+
+// ── PROMPT PARA A CLIENTE (sem dados estratégicos) ──
+function construirPrompt(d) {
+  return "Voce e um sistema especializado em comunicacao clinica integrativa com foco em neurovendas e PNL. " +
+    "Gere um relatorio de diagnostico para uma cliente da Dra. Luana Rodrigues — especialista em Saude Integrativa e Neuroperformance, metodo R.A.I.Z.\n\n" +
+    "REGRAS ABSOLUTAS:\n" +
+    "1. NAO entregue o COMO. Apenas o QUE — o que esta na raiz, o que precisa mudar, o que e possivel.\n" +
+    "2. Gere MUITO DESEJO pelo acompanhamento sem oferecer. A cliente deve sentir que precisa da Dra. Luana.\n" +
+    "3. Use linguagem que faz a cliente se sentir VISTA, COMPREENDIDA e ESPERANCOSA — nao vitimizada.\n" +
+    "4. Resultados devem ser PALPÁVEIS e CONCRETOS: dormir e acordar descansada, tomar decisoes com clareza, ter energia real.\n" +
+    "5. Use principios de PNL: ancoragem, espelhamento da dor, linguagem do futuro desejado.\n" +
+    "6. Tom: especialista que leu o caso, nao coach motivacional. Direto, preciso, acolhedor.\n\n" +
+    "DADOS DA CLIENTE:\n" +
+    "Nome: " + s(d.nome) + "\nProfissao: " + s(d.profissao) + "\nIdade: " + s(d.idade) +
+    "\nFilhos: " + s(d.filhos) + "\nEstado atual: " + s(d.estado_atual) + "\nSintomas: " + s(d.sintomas) +
+    "\nDor principal: " + s(d.dor_principal) + "\nO que drena: " + s(d.drenagem) +
+    "\nO que ja tentou: " + s(d.tentativas) + "\nO que nao resolve sozinha: " + s(d.nao_resolvido) +
+    "\nTempo com sintomas: " + s(d.tempo_sintoma) + "\nCusto de continuar assim: " + s(d.custo) +
+    "\nO que muda se resolver: " + s(d.paraiso) + "\nO que teme: " + s(d.medo) + "\n\n" +
+    "RETORNE APENAS ESTE JSON PREENCHIDO — comece com { e termine com }:\n" +
+    '{"frase_espelho":"frase de 2-3 linhas que usa as proprias palavras da cliente para mostrar que foi lida com precisao. Deve causar o efeito: ela descreveu exatamente o que eu vivo",' +
+    '"descricao_momento":"paragrafo de 3-4 linhas descrevendo o momento atual dela com precisao clinica e empatia. Nomeia o estado sem diagnosticar doenca",' +
+    '"sintomas_nomeados":[{"icone":"emoji relevante","titulo":"nome curto do sintoma","texto":"1-2 linhas explicando como esse sintoma aparece especificamente nela"},{"icone":"","titulo":"","texto":""},{"icone":"","titulo":"","texto":""},{"icone":"","titulo":"","texto":""}],' +
+    '"raiz_principal":"2-3 paragrafos sobre o que esta na raiz. Clinico, preciso, sem jargao desnecessario. O que esta causando tudo isso — sem entregar o como resolver",' +
+    '"o_que_mantem":"paragrafo de 2-3 linhas sobre o que mantem esse ciclo. Sem culpar a cliente — ela esta fazendo o maximo com o que tem",' +
+    '"antes_atual":["situacao atual 1","situacao atual 2","situacao atual 3","situacao atual 4","situacao atual 5"],' +
+    '"depois_possivel":["resultado concreto 1 usando linguagem sensorial","resultado concreto 2","resultado concreto 3","resultado concreto 4","resultado concreto 5"],' +
+    '"plano_acao":[{"passo":"Passo 01","titulo":"titulo do movimento","texto":"descricao do QUE — nao o COMO. O que precisa acontecer neste eixo. 2-3 linhas."},{"passo":"Passo 02","titulo":"","texto":""},{"passo":"Passo 03","titulo":"","texto":""},{"passo":"Passo 04","titulo":"","texto":""}],' +
+    '"resultados_palpaveis":[{"icone":"emoji","titulo":"resultado concreto curto","texto":"como isso aparece no dia a dia real dela"},{"icone":"","titulo":"","texto":""},{"icone":"","titulo":"","texto":""},{"icone":"","titulo":"","texto":""},{"icone":"","titulo":"","texto":""},{"icone":"","titulo":"","texto":""}],' +
+    '"frase_encerramento":"frase final de 2-3 linhas que ancora o desejo pelo acompanhamento sem ser imperativa. Deve soar como: voce ja sabe que algo precisa mudar. A questao e se vai fazer isso com metodo ou continuar tentando sozinha."}';
+}
+
+// ── CHAMAR API VIA APPS SCRIPT ──
+async function gerarRelatorio() {
+  try {
+    const resp = await fetch(ENDPOINT, {
+      method: "POST",
+      body: JSON.stringify({ prompt: construirPrompt(dadosCliente) })
+    });
+
+    clearInterval(msgInterval);
+    const texto = await resp.text();
+    const match = texto.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error("Resposta invalida do servidor.");
+
+    // Limpa caracteres que quebram o JSON
+    const limpo = match[0]
+      .replace(/[\u0000-\u001F\u007F]/g, " ")
+      .replace(/,\s*([}\]])/g, "$1"); // remove virgula final antes de } ou ]
+
+    const diag = JSON.parse(limpo);
+    if (diag.erro) throw new Error(diag.erro);
+
+    renderRelatorio(dadosCliente, diag);
+
+  } catch(err) {
+    clearInterval(msgInterval);
+    document.getElementById("tela-loading").style.display = "none";
+    document.getElementById("tela-erro").style.display = "block";
+    document.getElementById("erro-msg").textContent = "Erro: " + err.message;
+  }
+}
+
+// ── RENDERIZAR ──
+function renderRelatorio(d, r) {
+  // Hero
+  document.getElementById("hero-nome").textContent = d.nome || "Seu Diagnóstico";
+  document.getElementById("hero-subtitulo").textContent =
+    (d.profissao || "") + (d.idade ? " · " + d.idade + " anos" : "") + " · Diagnóstico R.A.I.Z exclusivo";
+  document.getElementById("hero-frase").innerHTML =
+    r.frase_espelho.replace(/\b(você|seu|sua|você)\b/gi, function(m) {
+      return "<em>" + m + "</em>";
+    });
+
+  // Seção 1
+  document.getElementById("sec1-desc").textContent = r.descricao_momento;
+
+  const grid = document.getElementById("reconhecimento-grid");
+  (r.sintomas_nomeados || []).forEach(function(s, i) {
+    if (!s.titulo) return;
+    const card = document.createElement("div");
+    card.className = "rec-card fade-in";
+    card.style.animationDelay = (i * 0.1) + "s";
+    card.innerHTML = '<div class="rec-icon">' + (s.icone || "✦") + '</div>' +
+      '<div class="rec-texto"><span>' + s.titulo + '</span><br>' + s.texto + '</div>';
+    grid.appendChild(card);
+  });
+
+  // Seção 2: Diagnóstico
+  const diagBlocos = document.getElementById("diagnostico-blocos");
+
+  const bloco1 = document.createElement("div");
+  bloco1.className = "diag-bloco fade-in";
+  bloco1.innerHTML =
+    '<div class="diag-bloco-header"><div class="diag-num">R</div><div class="diag-bloco-titulo">O que está na raiz</div></div>' +
+    '<div class="diag-bloco-conteudo">' + r.raiz_principal + '</div>';
+  diagBlocos.appendChild(bloco1);
+
+  const bloco2 = document.createElement("div");
+  bloco2.className = "diag-bloco fade-in";
+  bloco2.style.animationDelay = "0.15s";
+  bloco2.innerHTML =
+    '<div class="diag-bloco-header"><div class="diag-num">A</div><div class="diag-bloco-titulo">O que mantém esse ciclo</div></div>' +
+    '<div class="diag-bloco-conteudo">' + r.o_que_mantem + '</div>';
+  diagBlocos.appendChild(bloco2);
+
+  // Seção 3: Antes e Depois
+  const ad = document.getElementById("antes-depois");
+  const antesHTML = (r.antes_atual || []).map(function(item) {
+    return '<div class="ad-item"><div class="ad-bullet"></div><div>' + item + '</div></div>';
+  }).join("");
+  const depoisHTML = (r.depois_possivel || []).map(function(item) {
+    return '<div class="ad-item"><div class="ad-bullet"></div><div>' + item + '</div></div>';
+  }).join("");
+
+  ad.innerHTML =
+    '<div class="ad-col ad-col-antes"><div class="ad-label">Hoje</div>' + antesHTML + '</div>' +
+    '<div class="ad-col ad-col-depois"><div class="ad-label">Com método</div>' + depoisHTML + '</div>';
+
+  // Seção 4: Plano de Ação
+  const plano = document.getElementById("plano-grid");
+  (r.plano_acao || []).forEach(function(p, i) {
+    if (!p.titulo) return;
+    const card = document.createElement("div");
+    card.className = "plano-card fade-in";
+    card.style.animationDelay = (i * 0.1) + "s";
+    card.innerHTML =
+      '<span class="plano-step">' + p.passo + '</span>' +
+      '<div class="plano-conteudo"><div class="plano-titulo">' + p.titulo + '</div>' +
+      '<div class="plano-texto">' + p.texto + '</div></div>';
+    plano.appendChild(card);
+  });
+
+  // Seção 5: Resultados Palpáveis
+  const resultados = document.getElementById("resultados-grid");
+  (r.resultados_palpaveis || r.resultados_palpáveis || []).forEach(function(res, i) {
+    if (!res.titulo) return;
+    const card = document.createElement("div");
+    card.className = "resultado-card fade-in";
+    card.style.animationDelay = (i * 0.08) + "s";
+    card.innerHTML =
+      '<div class="resultado-icone">' + (res.icone || "✦") + '</div>' +
+      '<div class="resultado-titulo">' + res.titulo + '</div>' +
+      '<div class="resultado-texto">' + res.texto + '</div>';
+    resultados.appendChild(card);
+  });
+
+  // CTA
+  document.getElementById("cta-texto").textContent = r.frase_encerramento;
+
+  // Mostrar
+  document.getElementById("tela-loading").style.display = "none";
+  document.getElementById("tela-relatorio").style.display = "block";
+  window.scrollTo({ top: 0 });
+}
+
+// ── INICIAR ──
+// Verifica se há dados via URL params, senão usa dados de demonstração
+if (dadosCliente.nome && dadosCliente.dor_principal) {
+  gerarRelatorio();
+} else {
+  // Modo demonstração — dados fictícios para você testar
+  dadosCliente.nome = "Fernanda Oliveira";
+  dadosCliente.profissao = "Empresária, dona de clínica";
+  dadosCliente.idade = "44";
+  dadosCliente.filhos = "2 filhos, 10 e 14 anos";
+  dadosCliente.estado_atual = "Estou tentando dar conta de tudo, mas meu corpo já está cobrando";
+  dadosCliente.sintomas = "Cansaço constante, Sono ruim, Ansiedade, Exames normais mas não estou bem";
+  dadosCliente.dor_principal = "Acordo cansada todo dia. Durmo 7 horas mas parece que não dormi. Concentração caiu, fico irritada com minha equipe e minhas filhas.";
+  dadosCliente.drenagem = "A clínica toda cai em cima de mim. Sou eu que resolvo tudo. Em casa é igual.";
+  dadosCliente.tentativas = "3 exames de sangue, academia 4 vezes, nutricionista, terapia há 2 anos";
+  dadosCliente.nao_resolvido = "O cansaço não vai embora. O sono não melhora de verdade.";
+  dadosCliente.tempo_sintoma = "Entre 1 e 3 anos";
+  dadosCliente.custo = "Decisões erradas na clínica. Relacionamento esfriou. Sem paciência com as filhas.";
+  dadosCliente.paraiso = "Acordar descansada. Tomar decisões com clareza. Chegar em casa presente.";
+  dadosCliente.medo = "Que meu corpo pare em hora que eu não escolhi.";
+  gerarRelatorio();
+}
+</script>
+</body>
+</html>
