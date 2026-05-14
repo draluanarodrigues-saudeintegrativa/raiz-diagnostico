@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Painel R.A.I.Z · Call</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --preto: #16130F;
+  --cobre: #C4763A;
+  --cobre-esc: #A05E28;
+  --creme: #F0E4CC;
+  --cinza: #8C8880;
+  --bege: #9C7B5E;
+  --offwhite: #FAF7F2;
+  --texto: #3a3028;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow: hidden; font-family: 'Outfit', sans-serif; background: var(--preto); color: var(--creme); }
+
+/* ── TELA SELEÇÃO ── */
+#tela-selecao {
+  height: 100vh; overflow-y: auto;
+  padding: 32px 20px 40px;
+}
+.logo-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 32px; }
+.logo-dot { width: 7px; height: 7px; background: var(--cobre); border-radius: 50%; }
+.logo-txt { font-size: 9px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--cobre); }
+.sel-titulo { font-size: 28px; font-weight: 800; line-height: 1.1; margin-bottom: 6px; }
+.sel-titulo span { color: var(--cobre); }
+.sel-sub { font-family: 'Lora', serif; font-style: italic; font-size: 13px; color: var(--cinza); margin-bottom: 28px; line-height: 1.6; }
+
+.campo-label { font-size: 9px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--cobre); margin-bottom: 8px; display: block; }
+
+.btn-carregar {
+  width: 100%; background: transparent;
+  border: 1px solid rgba(196,118,58,0.3); border-radius: 4px;
+  padding: 14px 20px; font-family: 'Outfit', sans-serif;
+  font-size: 13px; font-weight: 600; letter-spacing: 1px;
+  color: var(--cobre); cursor: pointer; margin-bottom: 16px;
+  transition: all 0.2s;
+}
+.btn-carregar:active { background: rgba(196,118,58,0.1); }
+
+.busca-input {
+  display: none; width: 100%;
+  background: rgba(196,118,58,0.06);
+  border: 1px solid rgba(196,118,58,0.2);
+  border-radius: 4px; padding: 13px 16px;
+  font-family: 'Outfit', sans-serif; font-size: 15px;
+  color: var(--creme); outline: none; margin-bottom: 12px;
+}
+.busca-input::placeholder { color: rgba(240,228,204,0.25); }
+
+.lista-leads {
+  display: none;
+  border: 1px solid rgba(196,118,58,0.15);
+  border-radius: 4px; overflow: hidden;
+}
+.lead-item {
+  padding: 16px;
+  border-bottom: 1px solid rgba(196,118,58,0.08);
+  cursor: pointer; transition: background 0.15s;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.lead-item:last-child { border-bottom: none; }
+.lead-item:active { background: rgba(196,118,58,0.08); }
+.lead-nome { font-size: 14px; font-weight: 600; color: var(--creme); }
+.lead-detalhe { font-size: 11px; color: var(--cinza); margin-top: 2px; }
+.lead-score-pill {
+  font-size: 10px; font-weight: 700;
+  padding: 4px 10px; border-radius: 40px; white-space: nowrap; margin-left: 10px;
+}
+.score-q { background: rgba(196,118,58,0.2); color: var(--cobre); }
+.score-m { background: rgba(156,123,94,0.2); color: var(--bege); }
+.score-f { background: rgba(140,136,128,0.15); color: var(--cinza); }
+
+.lead-sel-card {
+  display: none; background: rgba(196,118,58,0.08);
+  border: 1px solid rgba(196,118,58,0.3); border-radius: 4px;
+  padding: 14px 16px; margin-bottom: 16px;
+  align-items: center; justify-content: space-between;
+}
+.lsc-nome { font-size: 15px; font-weight: 700; color: var(--creme); }
+.lsc-det { font-size: 11px; color: var(--cinza); margin-top: 2px; }
+.lsc-trocar { font-size: 11px; color: var(--cinza); background: none; border: none; cursor: pointer; text-decoration: underline; white-space: nowrap; margin-left: 10px; }
+
+.btn-gerar {
+  display: none; width: 100%;
+  background: var(--cobre); border: none; border-radius: 4px;
+  padding: 16px; font-family: 'Outfit', sans-serif;
+  font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--preto); cursor: pointer;
+}
+.btn-gerar:active { background: var(--cobre-esc); }
+
+.status { font-size: 12px; color: var(--cinza); text-align: center; margin-top: 12px; font-family: 'Lora', serif; font-style: italic; min-height: 18px; }
+
+/* ── LOADING ── */
+#tela-loading {
+  display: none; position: fixed; inset: 0;
+  background: var(--preto); z-index: 200;
+  flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 32px;
+}
+.spinner { width: 40px; height: 40px; border: 2px solid rgba(196,118,58,0.2); border-top-color: var(--cobre); border-radius: 50%; animation: spin 0.9s linear infinite; margin-bottom: 20px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-nome { font-size: 18px; font-weight: 700; color: var(--creme); margin-bottom: 6px; }
+.loading-msg { font-family: 'Lora', serif; font-style: italic; font-size: 13px; color: var(--cinza); }
+
+/* ── PAINEL PRINCIPAL ── */
+#tela-painel {
+  display: none; position: fixed; inset: 0;
+  flex-direction: column; background: var(--preto);
+}
+
+/* Header fixo */
+.painel-header {
+  background: var(--preto); padding: 14px 16px;
+  border-bottom: 1px solid rgba(196,118,58,0.15);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0; z-index: 100;
+}
+.ph-esq { display: flex; align-items: center; gap: 10px; }
+.ph-badge { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--creme); background: var(--cobre); padding: 4px 10px; border-radius: 40px; }
+.ph-nome { font-size: 14px; font-weight: 700; color: var(--creme); }
+.ph-prof { font-size: 10px; color: var(--cinza); }
+.btn-voltar { background: transparent; border: 1px solid rgba(240,228,204,0.15); border-radius: 4px; padding: 7px 12px; font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--cinza); cursor: pointer; }
+.btn-voltar:active { border-color: var(--cobre); color: var(--cobre); }
+
+/* Tabs */
+.painel-tabs {
+  display: flex; background: rgba(240,228,204,0.04);
+  border-bottom: 1px solid rgba(196,118,58,0.12);
+  flex-shrink: 0; overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+.painel-tabs::-webkit-scrollbar { display: none; }
+.tab-btn {
+  flex-shrink: 0; padding: 12px 16px;
+  font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 600;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: rgba(240,228,204,0.35); background: none; border: none;
+  border-bottom: 2px solid transparent; cursor: pointer;
+  transition: all 0.2s; white-space: nowrap;
+}
+.tab-btn.ativa { color: var(--cobre); border-bottom-color: var(--cobre); }
+
+/* Conteúdo scrollável */
+.painel-conteudo {
+  flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  padding: 20px 16px 80px;
+}
+
+/* ── SEÇÃO ABERTURA ── */
+.abertura-card {
+  background: rgba(196,118,58,0.08); border: 1px solid rgba(196,118,58,0.25);
+  border-radius: 8px; padding: 20px; margin-bottom: 16px;
+}
+.ab-label { font-size: 9px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--cobre); margin-bottom: 8px; }
+.ab-texto { font-family: 'Lora', serif; font-style: italic; font-size: 15px; color: var(--creme); line-height: 1.7; }
+
+/* ── CARDS BRANCOS ── */
+.card-branco {
+  background: var(--offwhite); border-radius: 8px; padding: 18px;
+  margin-bottom: 12px; color: var(--texto);
+}
+.card-label { font-size: 9px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--cobre); margin-bottom: 10px; }
+.card-titulo { font-size: 15px; font-weight: 700; color: var(--preto); margin-bottom: 8px; }
+.card-texto { font-family: 'Lora', serif; font-size: 14px; color: var(--texto); line-height: 1.75; }
+
+/* ── EIXOS ── */
+.eixo-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(22,19,15,0.07); }
+.eixo-item:last-child { border-bottom: none; }
+.eixo-num { width: 28px; height: 28px; min-width: 28px; background: var(--cobre); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: var(--creme); }
+.eixo-nome { font-size: 13px; font-weight: 700; color: var(--preto); margin-bottom: 3px; }
+.eixo-desc { font-family: 'Lora', serif; font-size: 13px; color: var(--bege); line-height: 1.6; }
+
+/* ── MOVIMENTOS ── */
+.mov-item { padding: 14px; margin-bottom: 10px; background: white; border-radius: 6px; border-left: 3px solid var(--cobre); }
+.mov-num { font-size: 9px; font-weight: 800; color: var(--cobre); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
+.mov-texto { font-size: 13px; font-weight: 600; color: var(--preto); line-height: 1.5; }
+.mov-transicao { background: rgba(196,118,58,0.08); border: 1px solid rgba(196,118,58,0.2); border-radius: 6px; padding: 14px; margin-top: 12px; }
+.mov-transicao-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--cobre); margin-bottom: 6px; }
+.mov-transicao-texto { font-family: 'Lora', serif; font-style: italic; font-size: 14px; color: var(--bege); line-height: 1.6; }
+
+/* ── SCORE ── */
+.score-grande { font-size: 52px; font-weight: 800; color: var(--cobre); line-height: 1; margin-bottom: 6px; }
+.score-track { height: 8px; background: rgba(22,19,15,0.1); border-radius: 40px; overflow: hidden; margin: 12px 0; }
+.score-fill { height: 100%; background: var(--cobre); border-radius: 40px; transition: width 1s ease; }
+.score-legenda { font-family: 'Lora', serif; font-style: italic; font-size: 13px; color: var(--cinza); margin-bottom: 12px; }
+.score-pill { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 14px; border-radius: 40px; }
+
+/* ── OBJEÇÃO ── */
+.obj-frase-txt { font-size: 15px; font-weight: 700; color: var(--preto); margin-bottom: 10px; font-style: italic; }
+.obj-quebra-txt { font-family: 'Lora', serif; font-size: 14px; color: var(--bege); line-height: 1.7; }
+
+/* ── LINK ── */
+.link-card { background: rgba(196,118,58,0.08); border: 1px solid rgba(196,118,58,0.25); border-radius: 8px; padding: 18px; }
+.link-label { font-size: 9px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--cobre); margin-bottom: 10px; }
+.link-txt { font-size: 12px; color: rgba(240,228,204,0.5); word-break: break-all; line-height: 1.5; margin-bottom: 14px; font-family: 'Lora', serif; font-style: italic; }
+.btn-copiar {
+  width: 100%; background: var(--cobre); border: none; border-radius: 4px;
+  padding: 13px; font-family: 'Outfit', sans-serif; font-size: 11px;
+  font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--preto); cursor: pointer;
+}
+.btn-copiar:active { background: var(--cobre-esc); }
+.copiar-ok { text-align: center; font-size: 12px; color: var(--cobre); margin-top: 8px; min-height: 18px; }
+
+/* ── SEÇÕES DE TAB ── */
+.tab-conteudo { display: none; }
+.tab-conteudo.ativa { display: block; }
+</style>
+</head>
+<body>
+
+<!-- SELEÇÃO -->
+<div id="tela-selecao">
+  <div class="logo-bar"><div class="logo-dot"></div><span class="logo-txt">Painel R.A.I.Z · Call</span></div>
+  <div class="sel-titulo">Selecione a <span>lead</span></div>
+  <p class="sel-sub">Carregue da planilha e gere o diagnóstico para a call.</p>
+
+  <button class="btn-carregar" id="btn-carregar" onclick="carregarLeads()">Carregar leads da planilha</button>
+
+  <div class="lead-sel-card" id="lead-sel-card">
+    <div><div class="lsc-nome" id="lsc-nome"></div><div class="lsc-det" id="lsc-det"></div></div>
+    <button class="lsc-trocar" onclick="trocarLead()">Trocar</button>
+  </div>
+
+  <input class="busca-input" id="busca-input" type="text" placeholder="Buscar lead pelo nome…" oninput="filtrar()" autocomplete="off">
+  <div class="lista-leads" id="lista-leads"></div>
+
+  <button class="btn-gerar" id="btn-gerar" onclick="gerarDiag()">Gerar Diagnóstico</button>
+  <div class="status" id="status"></div>
+</div>
+
+<!-- LOADING -->
+<div id="tela-loading">
+  <div class="spinner"></div>
+  <div class="loading-nome" id="loading-nome"></div>
+  <div class="loading-msg" id="loading-msg">Lendo o sistema da lead…</div>
+</div>
+
+<!-- PAINEL -->
+<div id="tela-painel">
+  <div class="painel-header">
+    <div class="ph-esq">
+      <span class="ph-badge">Call</span>
+      <div><div class="ph-nome" id="ph-nome"></div><div class="ph-prof" id="ph-prof"></div></div>
+    </div>
+    <button class="btn-voltar" onclick="voltarSelecao()">Nova</button>
+  </div>
+
+  <div class="painel-tabs" id="painel-tabs">
+    <button class="tab-btn ativa" onclick="abrirTab('abertura',this)">Abertura</button>
+    <button class="tab-btn" onclick="abrirTab('raiz',this)">Raiz</button>
+    <button class="tab-btn" onclick="abrirTab('movimentos',this)">Plano</button>
+    <button class="tab-btn" onclick="abrirTab('fechamento',this)">Fechamento</button>
+    <button class="tab-btn" onclick="abrirTab('link',this)">Link</button>
+  </div>
+
+  <div class="painel-conteudo">
+
+    <!-- TAB ABERTURA -->
+    <div class="tab-conteudo ativa" id="tab-abertura">
+      <div class="abertura-card">
+        <div class="ab-label">Frase de abertura</div>
+        <div class="ab-texto" id="ab-frase"></div>
+      </div>
+      <div class="card-branco" id="ab-eixos-card">
+        <div class="card-label">Eixos de desregulação</div>
+        <div id="ab-eixos"></div>
+      </div>
+    </div>
+
+    <!-- TAB RAIZ -->
+    <div class="tab-conteudo" id="tab-raiz">
+      <div class="card-branco">
+        <div class="card-label">O que está na raiz</div>
+        <div class="card-texto" id="raiz-txt"></div>
+      </div>
+      <div class="card-branco">
+        <div class="card-label">O que mantém o ciclo</div>
+        <div class="card-texto" id="ciclo-txt"></div>
+      </div>
+    </div>
+
+    <!-- TAB MOVIMENTOS -->
+    <div class="tab-conteudo" id="tab-movimentos">
+      <div id="movimentos-lista"></div>
+    </div>
+
+    <!-- TAB FECHAMENTO -->
+    <div class="tab-conteudo" id="tab-fechamento">
+      <div class="card-branco" style="text-align:center;margin-bottom:12px">
+        <div class="card-label">Score de fechamento</div>
+        <div class="score-grande" id="score-num"></div>
+        <div class="score-track"><div class="score-fill" id="score-fill"></div></div>
+        <div class="score-legenda" id="score-legenda"></div>
+        <div class="score-pill" id="score-pill"></div>
+      </div>
+      <div class="card-branco">
+        <div class="card-label">Objeção provável</div>
+        <div class="obj-frase-txt" id="obj-frase"></div>
+        <div class="obj-quebra-txt" id="obj-quebra"></div>
+      </div>
+    </div>
+
+    <!-- TAB LINK -->
+    <div class="tab-conteudo" id="tab-link">
+      <div class="link-card">
+        <div class="link-label">Link do diagnóstico para a cliente</div>
+        <div class="link-txt" id="link-txt">Gerando link…</div>
+        <button class="btn-copiar" onclick="copiarLink()">Copiar link</button>
+        <div class="copiar-ok" id="copiar-ok"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbyJY9j-EywuQq4ho15WJrqDcO85Eyol6SdKUE26HP2Wb6hMHElsNiyDDoPKkEDCfFKB/exec";
+const BASE_RELATORIO = "https://draluanarodrigues-saudeintegrativa.github.io/raiz-diagnostico/relatorio_cliente_raiz.html";
+
+const COL = { timestamp:1,nome:2,whatsapp:3,profissao:4,idade:5,instagram:6,filhos:7,estado_atual:8,sintomas:9,dor_principal:10,drenagem:11,tentativas:12,nao_resolvido:13,tempo_sintoma:14,custo:15,paraiso:16,medo:17,investimento:18,comprometimento:19,observacao:20 };
+
+let todasLeads = [], leadSel = null, linkAtual = "";
+
+function setStatus(m) { document.getElementById("status").textContent = m; }
+
+// ── CARREGAR LEADS ──
+async function carregarLeads() {
+  setStatus("Conectando…");
+  document.getElementById("btn-carregar").disabled = true;
+  try {
+    const resp = await fetch(ENDPOINT);
+    if (!resp.ok) throw new Error("Erro " + resp.status);
+    const linhas = await resp.json();
+    if (!Array.isArray(linhas) || !linhas.length) { setStatus("Nenhuma lead encontrada."); document.getElementById("btn-carregar").disabled = false; return; }
+    todasLeads = linhas.map(function(l,i){ return Object.assign({index:i},l); }).reverse();
+    document.getElementById("btn-carregar").style.display = "none";
+    document.getElementById("busca-input").style.display = "block";
+    document.getElementById("busca-input").focus();
+    renderLista(todasLeads);
+    setStatus(todasLeads.length + " leads carregadas.");
+  } catch(err) { setStatus("Erro: " + err.message); document.getElementById("btn-carregar").disabled = false; }
+}
+
+function renderLista(leads) {
+  const el = document.getElementById("lista-leads");
+  el.style.display = "block";
+  if (!leads.length) { el.innerHTML = '<div style="padding:16px;font-size:13px;color:var(--cinza)">Nenhuma lead encontrada.</div>'; return; }
+  el.innerHTML = leads.map(function(l) {
+    const sc = parseInt(l.comprometimento)||7;
+    const cls = sc>=8?"score-q":sc>=5?"score-m":"score-f";
+    const lbl = sc>=8?"Quente":sc>=5?"Morna":"Fria";
+    return '<div class="lead-item" onclick="selecionarLead('+l.index+')">' +
+      '<div><div class="lead-nome">'+l.nome+'</div><div class="lead-detalhe">'+l.profissao+(l.idade?' · '+l.idade+' anos':'')+'</div></div>' +
+      '<span class="lead-score-pill '+cls+'">'+sc+' · '+lbl+'</span></div>';
+  }).join("");
+}
+
+function filtrar() {
+  const q = document.getElementById("busca-input").value.toLowerCase();
+  renderLista(todasLeads.filter(function(l){ return l.nome.toLowerCase().includes(q)||l.profissao.toLowerCase().includes(q); }));
+}
+
+function selecionarLead(idx) {
+  leadSel = todasLeads.find(function(l){ return l.index===idx; });
+  document.getElementById("lista-leads").style.display = "none";
+  document.getElementById("busca-input").style.display = "none";
+  document.getElementById("lsc-nome").textContent = leadSel.nome;
+  document.getElementById("lsc-det").textContent = (leadSel.profissao||"")+(leadSel.idade?" · "+leadSel.idade+" anos":"");
+  const c = document.getElementById("lead-sel-card");
+  c.style.display = "flex";
+  document.getElementById("btn-gerar").style.display = "block";
+  setStatus("");
+}
+
+function trocarLead() {
+  leadSel = null;
+  document.getElementById("lead-sel-card").style.display = "none";
+  document.getElementById("btn-gerar").style.display = "none";
+  document.getElementById("busca-input").style.display = "block";
+  document.getElementById("busca-input").value = "";
+  renderLista(todasLeads);
+}
+
+// ── GERAR DIAGNÓSTICO ──
+function lp(v) { return String(v||"").replace(/\\/g," ").replace(/"/g,"'").replace(/[\r\n]+/g," ").replace(/[\u0000-\u001F]/g," ").trim(); }
+
+function montarPrompt(d) {
+  return "Voce e um sistema de analise clinica integrativa. Retorne SOMENTE JSON. Nenhuma palavra fora do JSON.\n\n" +
+    "Contexto: Dra. Luana Rodrigues, Saude Integrativa e Neuroperformance, metodo R.A.I.Z. Call de vendas. Entregar o QUE sem o COMO. Gerar desejo pela Mentoria R.A.I.Z R$ 6.000.\n\n" +
+    "DADOS:\nNome: "+lp(d.nome)+"\nProfissao: "+lp(d.profissao)+"\nIdade: "+lp(d.idade)+"\nFilhos: "+lp(d.filhos)+"\nEstado: "+lp(d.estado_atual)+"\nSintomas: "+lp(d.sintomas)+"\nDor: "+lp(d.dor_principal)+"\nDrenagem: "+lp(d.drenagem)+"\nTentativas: "+lp(d.tentativas)+"\nNao resolve: "+lp(d.nao_resolvido)+"\nTempo: "+lp(d.tempo_sintoma)+"\nCusto: "+lp(d.custo)+"\nParaiso: "+lp(d.paraiso)+"\nMedo: "+lp(d.medo)+"\nInvestimento: "+lp(d.investimento)+"\nComprometimento: "+lp(d.comprometimento)+"/10\nObs: "+lp(d.observacao)+"\n\n" +
+    "RETORNE APENAS ESTE JSON. Comece com { e termine com }:\n" +
+    '{"frase_abertura":"2-3 linhas usando as palavras dela para abrir a call com autoridade",' +
+    '"eixos_desregulacao":[{"nome":"eixo 1","descricao":"especifico para este caso"},{"nome":"eixo 2","descricao":""},{"nome":"eixo 3","descricao":""}],' +
+    '"o_que_esta_na_raiz":"3-4 linhas sobre a causa profunda. Clinico, preciso.",' +
+    '"o_que_mantem_o_ciclo":"2-3 linhas sobre os padroes que sustentam o loop.",' +
+    '"movimentos_prioritarios":["movimento 1 o QUE sem o COMO","movimento 2","movimento 3","movimento 4"],' +
+    '"frase_transicao":"ponte entre diagnostico e mentoria em ate 2 linhas.",' +
+    '"objecao_provavel":{"frase":"objecao mais provavel desta lead","quebra":"como quebrar em 2-3 frases"},' +
+    '"score_fechamento":'+(parseInt(d.comprometimento)||7)+',' +
+    '"leitura_prontidao":"1 frase sobre o nivel de prontidao desta lead"}';
+}
+
+function montarLink(d) {
+  function enc(v){ return encodeURIComponent(String(v||"").trim()); }
+  return BASE_RELATORIO + "?nome="+enc(d.nome)+"&profissao="+enc(d.profissao)+"&idade="+enc(d.idade)+"&filhos="+enc(d.filhos)+"&estado_atual="+enc(d.estado_atual)+"&sintomas="+enc(d.sintomas)+"&dor_principal="+enc(d.dor_principal)+"&drenagem="+enc(d.drenagem)+"&tentativas="+enc(d.tentativas)+"&nao_resolvido="+enc(d.nao_resolvido)+"&tempo_sintoma="+enc(d.tempo_sintoma)+"&custo="+enc(d.custo)+"&paraiso="+enc(d.paraiso)+"&medo="+enc(d.medo)+"&comprometimento="+enc(d.comprometimento);
+}
+
+const loadMsgs = ["Lendo o sistema da lead…","Mapeando eixos…","Identificando a raiz…","Construindo o plano…","Finalizando…"];
+let mi=0,iv=null;
+
+async function gerarDiag() {
+  if (!leadSel) return;
+  document.getElementById("tela-selecao").style.display = "none";
+  document.getElementById("tela-loading").style.display = "flex";
+  document.getElementById("loading-nome").textContent = leadSel.nome;
+  iv = setInterval(function(){ document.getElementById("loading-msg").textContent = loadMsgs[mi++%loadMsgs.length]; },2000);
+
+  try {
+    const resp = await fetch(ENDPOINT, { method:"POST", body: JSON.stringify({ prompt: montarPrompt(leadSel) }) });
+    clearInterval(iv);
+    const texto = await resp.text();
+    const match = texto.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error("Resposta invalida.");
+    const limpo = match[0].replace(/[\u0000-\u001F\u007F]/g," ").replace(/,\s*([}\]])/g,"$1");
+    const diag = JSON.parse(limpo);
+    if (diag.erro) throw new Error(diag.erro);
+    linkAtual = montarLink(leadSel);
+    renderPainel(leadSel, diag);
+  } catch(err) {
+    clearInterval(iv);
+    document.getElementById("tela-loading").style.display = "none";
+    document.getElementById("tela-selecao").style.display = "block";
+    setStatus("Erro: " + err.message);
+  }
+}
+
+// ── RENDERIZAR PAINEL ──
+function renderPainel(d, diag) {
+  document.getElementById("tela-loading").style.display = "none";
+
+  // Header
+  document.getElementById("ph-nome").textContent = d.nome;
+  document.getElementById("ph-prof").textContent = (d.profissao||"")+(d.idade?" · "+d.idade+" anos":"");
+
+  // Abertura
+  document.getElementById("ab-frase").textContent = diag.frase_abertura||"";
+  const eixosEl = document.getElementById("ab-eixos");
+  eixosEl.innerHTML = "";
+  (diag.eixos_desregulacao||[]).forEach(function(e,i){
+    if(!e.nome) return;
+    eixosEl.innerHTML += '<div class="eixo-item"><div class="eixo-num">'+(i+1)+'</div><div><div class="eixo-nome">'+e.nome+'</div><div class="eixo-desc">'+e.descricao+'</div></div></div>';
+  });
+
+  // Raiz
+  document.getElementById("raiz-txt").textContent = diag.o_que_esta_na_raiz||"";
+  document.getElementById("ciclo-txt").textContent = diag.o_que_mantem_o_ciclo||"";
+
+  // Movimentos
+  const movEl = document.getElementById("movimentos-lista");
+  movEl.innerHTML = "";
+  (diag.movimentos_prioritarios||[]).forEach(function(m,i){
+    if(!m) return;
+    movEl.innerHTML += '<div class="mov-item"><div class="mov-num">Movimento 0'+(i+1)+'</div><div class="mov-texto">'+m+'</div></div>';
+  });
+  if (diag.frase_transicao) {
+    movEl.innerHTML += '<div class="mov-transicao"><div class="mov-transicao-label">Transição para a oferta</div><div class="mov-transicao-texto">'+diag.frase_transicao+'</div></div>';
+  }
+
+  // Fechamento
+  const score = diag.score_fechamento||7;
+  document.getElementById("score-num").textContent = score;
+  document.getElementById("score-fill").style.width = (score/10*100)+"%";
+  document.getElementById("score-legenda").textContent = diag.leitura_prontidao||"";
+  const pill = document.getElementById("score-pill");
+  if(score>=8){ pill.textContent="Lead quente"; pill.style.cssText="background:rgba(196,118,58,0.2);color:#C4763A"; }
+  else if(score>=5){ pill.textContent="Lead morna"; pill.style.cssText="background:rgba(156,123,94,0.15);color:#9C7B5E"; }
+  else{ pill.textContent="Lead fria"; pill.style.cssText="background:rgba(140,136,128,0.12);color:#8C8880"; }
+
+  document.getElementById("obj-frase").textContent = '"'+(diag.objecao_provavel?.frase||"")+'"';
+  document.getElementById("obj-quebra").textContent = diag.objecao_provavel?.quebra||"";
+
+  // Link
+  document.getElementById("link-txt").textContent = linkAtual;
+
+  document.getElementById("tela-painel").style.display = "flex";
+  abrirTab("abertura", document.querySelector(".tab-btn"));
+}
+
+// ── TABS ──
+function abrirTab(id, btn) {
+  document.querySelectorAll(".tab-conteudo").forEach(function(el){ el.classList.remove("ativa"); });
+  document.querySelectorAll(".tab-btn").forEach(function(el){ el.classList.remove("ativa"); });
+  document.getElementById("tab-"+id).classList.add("ativa");
+  if(btn) btn.classList.add("ativa");
+  document.querySelector(".painel-conteudo").scrollTop = 0;
+}
+
+// ── COPIAR LINK ──
+function copiarLink() {
+  if (!linkAtual) return;
+  navigator.clipboard.writeText(linkAtual).then(function(){
+    const ok = document.getElementById("copiar-ok");
+    ok.textContent = "Link copiado. Cole no WhatsApp.";
+    setTimeout(function(){ ok.textContent=""; }, 3000);
+  }).catch(function(){
+    const ok = document.getElementById("copiar-ok");
+    ok.textContent = "Selecione e copie manualmente.";
+  });
+}
+
+function voltarSelecao() {
+  document.getElementById("tela-painel").style.display = "none";
+  document.getElementById("tela-selecao").style.display = "block";
+}
+</script>
+</body>
+</html>
